@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "942082420065",
+    "project_id": "canal-3d713",
+    "storage_bucket": "canal-3d713.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942082420065:android:2323a7f9e27ba7ef86a920",
+        "android_client_info": {
+          "package_name": "com.example.canal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_hdUWx8wJPYrq_08Yi9RkXuSsC8YTq5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
