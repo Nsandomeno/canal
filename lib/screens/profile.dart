@@ -1,4 +1,6 @@
+import 'package:canal/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Profile extends ConsumerWidget {
@@ -6,14 +8,13 @@ class Profile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authProviders = ref.watch(authProvidersProvider);
 
-    return Scaffold(
+    return ProfileScreen(
       appBar: AppBar(
-        title: const Text("Welcome!"),
+        title: const Text('Profile'),
       ),
-      body: const Center(
-        child: Text("Coming Soon..."),
-      ),
+      providers: authProviders,
     );
   }
 }

@@ -16,9 +16,9 @@ class FirestoreRepo {
       "baseCurrency": baseCurr,
       "plaidStatus": false,
       "plaidCurrency": baseCurr,
-      "createdAt": FieldValue.serverTimestamp()
+      "createdAt": FieldValue.serverTimestamp(),
+      "updatedAt": FieldValue.serverTimestamp(),
     });
-
   }
 
   // Future<void> updateJob(String uid, String jobId, String title, String company) =>
@@ -38,6 +38,6 @@ class FirestoreRepo {
   // }
 }
 
-final FirestoreRepoProvider = Provider((ref) {
+final firestoreRepoProvider = Provider((ref) {
   return FirestoreRepo(FirebaseFirestore.instance);
 });
