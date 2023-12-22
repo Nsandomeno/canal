@@ -9,7 +9,7 @@ class Landing extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create or Load Wallet"),
+        title: const Text("Sign In / Login"),
       ),
       body: const Center(
         child: Text("Coming Soon..."),
