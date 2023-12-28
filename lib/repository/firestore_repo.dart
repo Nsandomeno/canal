@@ -1,3 +1,4 @@
+import 'package:canal/repository/account.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,7 +21,13 @@ class FirestoreRepo {
       "updatedAt": FieldValue.serverTimestamp(),
     });
   }
-
+  
+  Query<Account> accountQuery(String uid) {
+    return _firestore.collection("account/$uid").withConverter(
+      fromFirestore: (snapshot, _) => Account.fromMap(snapshot.data()!), 
+      toFirestore: (account, _) => account.toMap(),
+    ).orderBy("createdAt", descending: true);
+  }
   // Future<void> updateJob(String uid, String jobId, String title, String company) =>
   //   _firestore.doc("users/$uid/jobs/$jobId").update({
   //     "title": title,
@@ -29,13 +36,6 @@ class FirestoreRepo {
 
   // Future<void> deleteJob(String uid, String jobId) =>
   //   _firestore.doc("users/$uid/jobs/$jobId").delete();
-
-  // Query<Job> jobsQuery(String uid) {
-  //   return _firestore.collection("users/$uid/jobs").withConverter(
-  //     fromFirestore: (snapshot, _) => Job.fromMap(snapshot.data()!), 
-  //     toFirestore: (job, _) => job.toMap(),
-  //   ).orderBy("createdAt", descending: true);
-  // }
 }
 
 final firestoreRepoProvider = Provider((ref) {
