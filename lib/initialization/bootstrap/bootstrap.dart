@@ -13,8 +13,42 @@ import 'package:canal/features/auth/application/user_token_refresh_service.dart'
 class AppBootstrap {
   /// create the root widget that should be passed to [runApp]
   Widget createRootWidget({required ProviderContainer container}) {
-    // init UserTokenRefreshService
-    container.read(UserTokenRefreshServiceProvider);
+    /// init UserTokenRefreshService
+    container.read(userTokenRefreshServiceProvider);
+
+    /// register error handlers. For more info, see:
+    /// https://docs.flutter.dev/testing/errors
+    final errorLogger = container.read(errorLoggerProvider);
+    registerErrorHandlers(errorLogger);
+
+    return UncontrolledProviderScope(
+      container: container, 
+      child: const App()
+    );
+  }
+
+  /// register flutter error handlers
+  void registerErrorHandlers(ErrorLogger errorLogger) {
+    /// show some error UI if any uncaught exceptions happens
+    FlutterError.onError = (FlutterErrorDetails details) {
+      FlutterError.presentError(details);
+      errorLogger.logError(details.exception, details.stack);
+    };
+    /// handle errors from underlying platform/OS
+    PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
+      errorLogger.logError(error, stack);
+      return true;
+    };
+    /// show some error UI when any widget in the app fails to build
+    ErrorWidget.builder = (FlutterErrorDetails details) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.red,
+          title: Text("An error occurred".hardcoded),
+        ),
+        body: Center(child: Text(details.toString())),
+      );
+    };
   }
 }
 
