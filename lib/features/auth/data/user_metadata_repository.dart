@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:canal/features/auth/domain/app_user.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'user_metadata_repository.g.dart';
+part 'mocks/user_metadata_repository.g.dart';
 
 /// helper repository class to watch the user metadata in Firestore
 class UserMetadataRepository {

@@ -11,6 +11,10 @@ import 'package:canal/features/auth/application/user_token_refresh_service.dart'
 
 /// helper class to initialize services and configure the error handlers
 class AppBootstrap {
-
+  /// create the root widget that should be passed to [runApp]
+  Widget createRootWidget({required ProviderContainer container}) {
+    // init UserTokenRefreshService
+    container.read(UserTokenRefreshServiceProvider);
+  }
 }
 
