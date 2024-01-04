@@ -2,8 +2,9 @@ import 'dart:async';
 import 'package:canal/features/auth/domain/app_user.dart';
 import 'package:canal/features/auth/domain/firebase_app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'auth_repository.g.dart';
 
 class AuthRepository {
   AuthRepository(this._auth);
@@ -47,14 +48,12 @@ class AuthRepository {
 }
 
 
-final authRepoProvider = Provider((ref) {
-  return AuthRepository(FirebaseAuth.instance);
-});
+@Riverpod(keepAlive: true)
+AuthRepository authRepository(AuthRepositoryRef ref) {
+  throw UnimplementedError();
+}
 
-
-final authStateChanges = StreamProvider((ref) {
-  final authRepository = ref.watch(authRepoProvider);
-
-  return authRepository.authStateChanges();
-});
-
+@Riverpod(keepAlive: true)
+Stream<AppUser?> authStateChanges(AuthStateChangesRef ref) {
+  throw UnimplementedError();
+}
