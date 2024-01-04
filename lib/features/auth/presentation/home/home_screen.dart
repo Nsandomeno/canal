@@ -1,4 +1,4 @@
-import 'package:canal/shared/auth_repository.dart';
+import 'package:canal/features/auth/data/auth_repository.dart';
 import 'package:canal/shared/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:canal/router/router.dart';

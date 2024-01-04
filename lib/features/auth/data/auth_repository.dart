@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'package:canal/features/auth/domain/app_user.dart';
+import 'package:canal/features/auth/domain/firebase_app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 class AuthRepository {
   AuthRepository(this._auth);
@@ -25,11 +28,22 @@ class AuthRepository {
     return _auth.signOut();
   }
 
-  Stream<User?> authStateChanges() {
-    return _auth.authStateChanges();
+  Stream<AppUser?> authStateChanges() {
+    return _auth.authStateChanges().map(_convertUser);
   }
 
-  User? get currentUser => _auth.currentUser;
+  /// notifies about changes to the user's sign-in state
+  /// and token refresh events
+  Stream<AppUser?> idTokenChanges() {
+    return _auth.idTokenChanges().map(_convertUser);
+  }
+
+  AppUser? get currentUser => _convertUser(_auth.currentUser);
+
+  /// helper method to convert [User] to an [AppUser]
+  AppUser? _convertUser(User? user) =>
+    user != null ? FirebaseAppUser(user) : null;
+  
 }
 
 
@@ -40,6 +54,7 @@ final authRepoProvider = Provider((ref) {
 
 final authStateChanges = StreamProvider((ref) {
   final authRepository = ref.watch(authRepoProvider);
+
   return authRepository.authStateChanges();
 });
 

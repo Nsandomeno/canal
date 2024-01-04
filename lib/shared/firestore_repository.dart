@@ -1,4 +1,4 @@
-import 'package:canal/features/auth/domain/account.dart';
+import 'package:canal/features/account/domain/account.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
