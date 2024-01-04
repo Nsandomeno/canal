@@ -1,48 +1,43 @@
-import 'package:canal/screens/profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'screens/landing.dart';
-import 'screens/home.dart';
+import 'package:canal/shared/auth_repository.dart';
+import 'package:canal/features/profile/presentation/profile.dart';
+import '../features/auth/presentation/sign_in/sign_in_screen.dart';
+import '../features/auth/presentation/home/home_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:canal/router_refresh_stream.dart';
+import 'package:canal/router/router_refresh_stream.dart';
 
 enum Routes {
-  landing,
+  signin,
   home,
   profile,
 }
 
-final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
-  // TODO convert to repo model
-  return FirebaseAuth.instance;
-});
-
 final routerProvider = Provider<GoRouter>((ref) {
-  final firebaseAuth = ref.watch(firebaseAuthProvider);
+  final firebaseAuth = ref.watch(authRepoProvider);
 
   return GoRouter(
-    initialLocation: "/landing",
+    initialLocation: "/signin",
     debugLogDiagnostics: true,
     refreshListenable: RouterRefreshStream(firebaseAuth.authStateChanges()),
     redirect: (context, state) {
       final isLoggedIn = firebaseAuth.currentUser != null;
 
       if (isLoggedIn) {
-        if (state.uri.path == "/landing") {
+        if (state.uri.path == "/signin") {
           return "/home";
         }
       } else {
         if (state.uri.path.startsWith("/home")) {
-          return "/landing";
+          return "/signin";
         }
       }
       return null;
     },
     routes: [
       GoRoute(
-        path: "/landing",
-        name: Routes.landing.name,
-        builder: (context, state) => const Landing()
+        path: "/signin",
+        name: Routes.signin.name,
+        builder: (context, state) => const SignIn()
       ),
       GoRoute(
         path: "/home",

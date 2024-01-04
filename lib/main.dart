@@ -1,8 +1,16 @@
-import 'router.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:canal/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+Future<void> setupEmulators() async {
+  await FirebaseAuth.instance.useAuthEmulator("127.0.0.1", 9099);
+  FirebaseFirestore.instance.useFirestoreEmulator("127.0.0.1",8080);
+}
 
 void main() async {
   // init firebase
@@ -10,6 +18,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await setupEmulators();
   // run application
   runApp(const ProviderScope(child: App()));
 }

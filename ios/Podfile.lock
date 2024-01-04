@@ -74,6 +74,10 @@ PODS:
     - nanopb/encode (= 2.30909.1)
   - nanopb/decode (2.30909.1)
   - nanopb/encode (2.30909.1)
+  - Plaid (4.7.0)
+  - plaid_flutter (0.0.1):
+    - Flutter
+    - Plaid (= 4.7.0)
   - PromisesObjC (2.3.1)
   - RecaptchaInterop (100.0.0)
 
@@ -85,6 +89,7 @@ DEPENDENCIES:
   - firebase_dynamic_links (from `.symlinks/plugins/firebase_dynamic_links/ios`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.18.0`)
   - Flutter (from `Flutter`)
+  - plaid_flutter (from `.symlinks/plugins/plaid_flutter/ios`)
 
 SPEC REPOS:
   trunk:
@@ -97,6 +102,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - nanopb
+    - Plaid
     - PromisesObjC
     - RecaptchaInterop
 
@@ -116,6 +122,8 @@ EXTERNAL SOURCES:
     :tag: 10.18.0
   Flutter:
     :path: Flutter
+  plaid_flutter:
+    :path: ".symlinks/plugins/plaid_flutter/ios"
 
 CHECKOUT OPTIONS:
   FirebaseFirestore:
@@ -139,6 +147,8 @@ SPEC CHECKSUMS:
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
   GTMSessionFetcher: 41b9ef0b4c08a6db4b7eb51a21ae5183ec99a2c8
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
+  Plaid: 431ef9be5314a1345efb451bc5e6b067bfb3b4c6
+  plaid_flutter: f3fc2f181857ac4b180a704ef5633aaeeb5ba6a6
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
 

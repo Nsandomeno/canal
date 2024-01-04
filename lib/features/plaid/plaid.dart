@@ -1,6 +1,6 @@
 //import 'package:canal/auth_provider.dart';
-import 'package:canal/repository/firestore_repo.dart';
-import 'package:canal/router.dart';
+import 'package:canal/shared/auth_repository.dart';
+import 'package:canal/shared/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,8 +12,8 @@ class Profile extends ConsumerWidget {
     // TODO define pattern and implement initial loading states
     
     // TODO make provider provide a repository instead of singleton.
-    final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
-    final account = ref.read(firestoreRepoProvider).accountQuery(uid);
+    final uid = ref.read(authRepoProvider).currentUser!.uid;
+    final account = ref.read(firestoreRepoProvider).fetchAccount(uid);
 
     return Scaffold(
       appBar: AppBar(
