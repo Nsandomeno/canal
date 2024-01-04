@@ -1,17 +1,15 @@
 const admin = require("firebase-admin");
 const logger = require("firebase-functions/logger");
-const  functions = require("firebase-functions");
+const functions = require("firebase-functions");
+const crypto = require("crypto");
 
 admin.initializeApp();
 
 exports.initAccount = functions.auth.user().onCreate(async (user, _) => {
     logger.log(user);
-
+    // TODO enforce uniqueness of accountId
     const data = {
-        // gen
-        "email": user.email,
-        "passwordHash": user.passwordHash,
-        "emailVerified": user.emailVerified,
+        "accountId": crypto.randomUUID(),
         "createdAt": Date.now(),
         // act
         "lnurl": null,

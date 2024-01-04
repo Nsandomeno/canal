@@ -13,7 +13,7 @@ enum Routes {
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final firebaseAuth = ref.watch(authRepoProvider);
+  final firebaseAuth = ref.watch(authRepositoryProvider);
 
   return GoRouter(
     initialLocation: "/signin",

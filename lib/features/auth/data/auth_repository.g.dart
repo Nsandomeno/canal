@@ -6,7 +6,7 @@ part of 'auth_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authRepositoryHash() => r'932433ad2d7f5f188b30576ffe157fcc0dec4832';
+String _$authRepositoryHash() => r'd1493a168564057722e42fc09c828a350df807e9';
 
 /// See also [authRepository].
 @ProviderFor(authRepository)
@@ -21,7 +21,7 @@ final authRepositoryProvider = Provider<AuthRepository>.internal(
 );
 
 typedef AuthRepositoryRef = ProviderRef<AuthRepository>;
-String _$authStateChangesHash() => r'f0ea1e64d4d394b56fa084b92897145f20097c98';
+String _$authStateChangesHash() => r'70d96078e41cd44270b2118f16bcbed842f33064';
 
 /// See also [authStateChanges].
 @ProviderFor(authStateChanges)
@@ -36,5 +36,20 @@ final authStateChangesProvider = StreamProvider<AppUser?>.internal(
 );
 
 typedef AuthStateChangesRef = StreamProviderRef<AppUser?>;
+String _$idTokenChangesHash() => r'e6058ad0b90d6e10b628af4b3dbd180a67b7146e';
+
+/// See also [idTokenChanges].
+@ProviderFor(idTokenChanges)
+final idTokenChangesProvider = StreamProvider<AppUser?>.internal(
+  idTokenChanges,
+  name: r'idTokenChangesProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$idTokenChangesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef IdTokenChangesRef = StreamProviderRef<AppUser?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

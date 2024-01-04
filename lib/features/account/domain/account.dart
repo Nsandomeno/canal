@@ -5,6 +5,7 @@ class Account extends Equatable {
   ///  TODO make a cloud function for updatedAt
   /// and add an optional field here.
   const Account({
+    required this.accountId,
     required this.plaidLink, 
     required this.baasAccount,
     required this.baseCurrency,
@@ -12,6 +13,7 @@ class Account extends Equatable {
     this.createdAt,
   });
 
+  final String accountId;
   final bool plaidLink;
   final bool baasAccount;
   final String baseCurrency;
@@ -24,6 +26,7 @@ class Account extends Equatable {
     final lnurl     = map["lnurl"];
 
     return Account(
+      accountId    : map["accountId"] as String,
       baseCurrency : map["baseCurrency"] as String,
       plaidLink    : map["plaidLink"] as bool,
       baasAccount  : map["baasAccount"] as bool,
@@ -33,6 +36,7 @@ class Account extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
+    "accountId": accountId,
     "baseCurrency": baseCurrency,
     "plaidLink": plaidLink,
     "baasAccount": baasAccount,

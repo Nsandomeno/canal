@@ -50,10 +50,19 @@ class AuthRepository {
 
 @Riverpod(keepAlive: true)
 AuthRepository authRepository(AuthRepositoryRef ref) {
-  throw UnimplementedError();
+  return AuthRepository(FirebaseAuth.instance);
 }
 
 @Riverpod(keepAlive: true)
 Stream<AppUser?> authStateChanges(AuthStateChangesRef ref) {
-  throw UnimplementedError();
+  final authRepository = ref.watch(authRepositoryProvider);
+
+  return authRepository.authStateChanges();
+}
+
+@Riverpod(keepAlive: true)
+Stream<AppUser?> idTokenChanges(IdTokenChangesRef ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+
+  return authRepository.idTokenChanges();
 }
