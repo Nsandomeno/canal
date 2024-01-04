@@ -10,7 +10,7 @@ class Home extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.read(authRepoProvider).currentUser!;
+    final user = ref.read(authRepositoryProvider).currentUser!;
     final account = ref.read(firestoreRepoProvider).fetchAccount(user.uid);
 
     return Scaffold(

@@ -12,7 +12,7 @@ class Profile extends ConsumerWidget {
     // TODO define pattern and implement initial loading states
     
     // TODO make provider provide a repository instead of singleton.
-    final uid = ref.read(authRepoProvider).currentUser!.uid;
+    final uid = ref.read(authRepositoryProvider).currentUser!.uid;
     final account = ref.read(firestoreRepoProvider).fetchAccount(uid);
 
     return Scaffold(
