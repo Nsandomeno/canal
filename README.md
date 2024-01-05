@@ -17,3 +17,5 @@ in its own terminal run:
 `dart run build_runner watch`
 
 then use the `@Riverpod` decorator on a top-level function and `part < repository >.g.dart;` to generate the provider code.
+
+## iOS Notes

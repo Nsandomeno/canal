@@ -3,12 +3,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:canal/firebase_options.dart';
 import 'package:canal/initialization/bootstrap/bootstrap.dart';
 import 'package:canal/initialization/bootstrap/firebase_bootstrap.dart';
+import 'package:canal/utils/platform.dart';
 // ignore:depend_on_referenced_packages
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:go_router/go_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final device = ClientDevice();
   /// init firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -17,7 +19,9 @@ void main() async {
   /// await FirebaseAuth.instance.signOut();
   
   /// turn off the # in the URLs on the web
-  usePathUrlStrategy();
+  if (device.isWeb) {
+    usePathUrlStrategy();
+  }
   /// ensre URL changes  in the address bar when using push / pushNamed
   /// more info here:
   /// * https://docs.google.com/document/d/1VCuB85D5kYxPR3qYOjVmw8boAGKb7k62heFyfFHTOvw/edit
