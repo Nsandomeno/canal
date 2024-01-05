@@ -19,7 +19,7 @@ void main() async {
   /// await FirebaseAuth.instance.signOut();
   
   /// turn off the # in the URLs on the web
-  if (device.isWeb) {
+  if (device.isUsingWeb) {
     usePathUrlStrategy();
   }
   /// ensre URL changes  in the address bar when using push / pushNamed

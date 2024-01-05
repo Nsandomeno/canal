@@ -45,7 +45,7 @@ class ClientDevice {
   /// currently all that is needed !!!
   /// used to add useUrlPathStrategy in main (main_mock)
   /// application entry points.
-  bool get isWeb => kIsWeb;
+  bool get isUsingWeb => kIsWeb;
 
 
   PlatformEnv determineEnv() {

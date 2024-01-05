@@ -38,14 +38,33 @@ Primary reference is the supporting notes here: https://courses.codewithandrea.c
 
 - podfile : Faster builds with Firestore SDK (read more: https://joshuamdeguzman.com/blog/improve-flutter-firestore-build/#:~:text=The%20issue%20is%20caused%20by,iOS%20SDK%20solves%20this%20problem.)
 
+- target runner / target runner tests issue: https://docs.page/bizz84/flutter-firebase-masterclass/faq/unable-to-find-runner-tests
+
+# builds
+- speed up build times : https://codewithandrea.com/tips/speed-up-cloud-firestore-xcode-builds/
+
 ## Android
 # app/build.gradle
 
 - build.gradle : Set minSdkVersion to "21"
 
 ## MacOS
+# key dependency compatability
+- Firebase x MacOS : https://codewithandrea.com/articles/flutter-firebase-auth-macos/
+
+# builds
+- Speed up build times : https://codewithandrea.com/tips/speed-up-cloud-firestore-xcode-builds/
 
 ## Web
+
+- the `usePathUrlStrategy()` is conditionally called in the application entrypoints (main/mock_main for testing) if the `ClientDevice` class determines the user is accessing via the Web.
+
+```
+/// turn off the # in the URLs on the web
+if (device.isWeb) {
+    usePathUrlStrategy();
+}
+```
 
 ## Windows
 `currently unsupported.`

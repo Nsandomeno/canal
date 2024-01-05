@@ -11,7 +11,7 @@ void main() async {
   final device = ClientDevice();
 
   /// turn off the # in the URLs on the web
-  if (device.isWeb) {
+  if (device.isUsingWeb) {
     usePathUrlStrategy();
   }
   /// ensure URL changes in the address bar when pushing / pushNamed
