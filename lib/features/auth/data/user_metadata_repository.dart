@@ -6,6 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'mocks/user_metadata_repository.g.dart';
 
 /// helper repository class to watch the user metadata in Firestore
+/// TODO setup mock and tests
 class UserMetadataRepository {
   const UserMetadataRepository(this._firestore);
 

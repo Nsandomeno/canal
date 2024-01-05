@@ -5,12 +5,11 @@ import 'package:canal/features/account/domain/account.dart';
 import 'package:canal/utils/delay.dart';
 import 'package:canal/utils/in_memory_store.dart';
 
-extension SelectAccount on Account {
-
-}
-
 class MockAccountRepository implements AccountRepository {
-  MockAccountRepository({this.addDelay = true, this.mockId = KTestAccountStates.blank});
+  MockAccountRepository({
+    this.addDelay = true, 
+    this.mockId = KTestAccountStates.blank
+  });
   final bool addDelay;
   final KTestAccountStates mockId;
   /// pre-load the test account:
