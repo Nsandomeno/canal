@@ -5,6 +5,7 @@ import 'package:canal/features/auth/domain/mock_app_user.dart';
 import 'package:canal/utils/delay.dart';
 import 'package:canal/utils/in_memory_store.dart';
 
+
 class MockAuthRepository implements AuthRepository {
   MockAuthRepository({this.addDelay = true});
 
@@ -75,5 +76,4 @@ class MockAuthRepository implements AuthRepository {
     // update the auth state
     _authState.value = user;
   }
-
 }

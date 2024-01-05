@@ -1,3 +1,6 @@
+
+import 'package:canal/features/auth/data/mocks/mock_user_metadata_repository.dart';
+import 'package:canal/features/auth/data/user_metadata_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:canal/initialization/bootstrap/bootstrap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,8 +9,8 @@ import 'package:canal/exceptions/async_error_logger.dart';
 /// NOTE: 
 ///     * no overrides for this bootstrap code
 /// 
-// import 'package:canal/features/auth/data/auth_repository.dart';
-// import 'package:canal/features/auth/data/mocks/mock_auth_repository.dart';
+import 'package:canal/features/auth/data/auth_repository.dart';
+import 'package:canal/features/auth/data/mocks/mock_auth_repository.dart';
 // import 'package:canal/features/account/data/account_repository.dart';
 // import 'package:canal/features/account/data/mocks/mock_account_repository.dart';
 
@@ -16,11 +19,16 @@ extension FirebaseBootstrap on AppBootstrap {
   /// creates the top-level [ProviderContainer] by overriding providers
   
   /// NOTE: no overrides to add at this stage.
-  
   Future<ProviderContainer> createFirebaseProviderContainer({bool addDelay = true}) async {
     /// NOTE: no overrides at this stage.
+    final authRepository = MockAuthRepository(addDelay: addDelay);
+    /// extending the default fake expiry (in seconds)
+    final userMetadataRepository = MockUserMetadataRepository(addDelay: true, expiresInSecs: 120);
     return ProviderContainer(
-      overrides: [],
+      overrides: [
+        authRepositoryProvider.overrideWithValue(authRepository),
+        userMetadataRepositoryProvider.overrideWithValue(userMetadataRepository),
+      ],
       observers: [AsyncErrorLogger()],
     );
   }

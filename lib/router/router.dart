@@ -1,5 +1,6 @@
 import 'package:canal/features/auth/data/auth_repository.dart';
 import 'package:canal/features/auth/presentation/home/profile_screen.dart';
+import 'package:canal/features/auth/presentation/sign_in/sign_in_form_type.dart';
 import '../features/auth/presentation/sign_in/sign_in_screen.dart';
 import '../features/auth/presentation/home/home_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +38,9 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: "/signin",
         name: Routes.signin.name,
-        builder: (context, state) => const SignIn()
+        builder: (context, state) => const EmailPasswordSignInScreen(
+          formType: EmailPasswordSignInFormType.signIn,
+        )
       ),
       GoRoute(
         path: "/home",

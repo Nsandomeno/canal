@@ -2,8 +2,24 @@
 Lightspark wallet geared towards retail remittance flows.
 
 # System Prerequisites
-
+```
+Node.js
+Java
+Dart
+Flutter SDK
+Flutter CLI
+XCode 
+Android Studio (?)
+Firebase CLI
+FlutterFire CLI
+IOS Simulator
+Android Simulator
+```
 # Firebase 
+Requires an invitation to nicholas.sandomeno@gmail.com's Firebase Console.
+
+Configure Firebase project 
+`flutterfire configure --project=< FIREBASE PROJECT ID >`
 
 # Local Emulators
 
@@ -77,3 +93,6 @@ if (device.isWeb) {
 
 # Linux 
 `currently unsupported.`
+
+# Resources
+- Architecture inspiration: https://codewithandrea.com/articles/flutter-app-architecture-riverpod-introduction/
