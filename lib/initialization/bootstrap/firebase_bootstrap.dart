@@ -3,10 +3,13 @@ import 'package:canal/initialization/bootstrap/bootstrap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:canal/exceptions/async_error_logger.dart';
-import 'package:canal/features/auth/data/auth_repository.dart';
-import 'package:canal/features/auth/data/mocks/mock_auth_repository.dart';
-import 'package:canal/features/account/data/account_repository.dart';
-import 'package:canal/features/account/data/mocks/mock_account_repository.dart';
+/// NOTE: 
+///     * no overrides for this bootstrap code
+/// 
+// import 'package:canal/features/auth/data/auth_repository.dart';
+// import 'package:canal/features/auth/data/mocks/mock_auth_repository.dart';
+// import 'package:canal/features/account/data/account_repository.dart';
+// import 'package:canal/features/account/data/mocks/mock_account_repository.dart';
 
 /// extension methods specific for the firebase project configuration
 extension FirebaseBootstrap on AppBootstrap {
