@@ -6,22 +6,22 @@ part of 'sign_in_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$emailPasswordSginInControllerHash() =>
-    r'c038c0224fe555775a766e1e4efc43b46373f7d6';
+String _$emailPasswordSignInControllerHash() =>
+    r'9297287fca9087a9a6e5d554d6136e07b3f0cea0';
 
-/// See also [EmailPasswordSginInController].
-@ProviderFor(EmailPasswordSginInController)
-final emailPasswordSginInControllerProvider = AutoDisposeAsyncNotifierProvider<
-    EmailPasswordSginInController, void>.internal(
-  EmailPasswordSginInController.new,
-  name: r'emailPasswordSginInControllerProvider',
+/// See also [EmailPasswordSignInController].
+@ProviderFor(EmailPasswordSignInController)
+final emailPasswordSignInControllerProvider = AutoDisposeAsyncNotifierProvider<
+    EmailPasswordSignInController, void>.internal(
+  EmailPasswordSignInController.new,
+  name: r'emailPasswordSignInControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$emailPasswordSginInControllerHash,
+      : _$emailPasswordSignInControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$EmailPasswordSginInController = AutoDisposeAsyncNotifier<void>;
+typedef _$EmailPasswordSignInController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

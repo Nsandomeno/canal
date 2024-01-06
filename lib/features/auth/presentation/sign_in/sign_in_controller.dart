@@ -6,7 +6,7 @@ import 'package:canal/features/auth/presentation/sign_in/sign_in_form_type.dart'
 part 'sign_in_controller.g.dart';
 
 @riverpod
-class EmailPasswordSginInController extends _$EmailPasswordSginInController {
+class EmailPasswordSignInController extends _$EmailPasswordSignInController {
   @override
   FutureOr<void> build() {
     /// no-op nothing to do

@@ -18,6 +18,9 @@ import 'package:canal/features/auth/data/mocks/mock_auth_repository.dart';
 extension FirebaseBootstrap on AppBootstrap {
   /// creates the top-level [ProviderContainer] by overriding providers
   
+  /// TODO make these overrides configurable by an environment variable or
+  ///      some other constant if that is the only way to do it without rebuilding.
+  
   /// NOTE: no overrides to add at this stage.
   Future<ProviderContainer> createFirebaseProviderContainer({bool addDelay = true}) async {
     /// NOTE: no overrides at this stage.
