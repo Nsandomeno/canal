@@ -7,7 +7,7 @@ part of 'user_token_refresh_service.dart';
 // **************************************************************************
 
 String _$userTokenRefreshServiceHash() =>
-    r'4da4e6e4acff063f6e48b3677d6a35eca38ae0a8';
+    r'0e8f6e50a33cef906867b6f682e63f7024ec8e31';
 
 /// See also [userTokenRefreshService].
 @ProviderFor(userTokenRefreshService)

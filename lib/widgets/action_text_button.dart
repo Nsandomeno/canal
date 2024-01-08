@@ -3,9 +3,15 @@ import 'package:canal/constants/sizes.dart';
 
 /// Text button to be used as an [AppBar] action
 class ActionTextButton extends StatelessWidget {
-  const ActionTextButton({super.key, required this.text, this.onPressed});
+  const ActionTextButton({
+    super.key, 
+    this.onPressed,
+    required this.text, 
+  });
+
   final String text;
   final VoidCallback? onPressed;
+  
   @override
   Widget build(BuildContext context) {
     return Padding(

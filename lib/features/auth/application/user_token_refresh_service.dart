@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,22 +15,32 @@ class UserTokenRefreshService {
   }
 
   final Ref ref;
+  StreamSubscription<DateTime?>? _subscription;
+  /// cleanup
+  void dispose() {
+    _subscription?.cancel();
+  }
 
   void _init() {
     ref.listen<AsyncValue<AppUser?>>(authStateChangesProvider, (previous, next) {
       final user = next.value;
+      /// if a previous subscription was active, dispose it
+      _subscription?.cancel();
       if (user != null) {
         /// on sign in, listen to metadata updates
-        ref.listen<AsyncValue<DateTime?>>(userMetadataRefreshTimeProvider(user.uid), (previous, next) async {
-          final refreshTime = next.value;
-          /// read user again as it may be null by the time we reach this callback
-          final user = ref.read(authRepositoryProvider).currentUser;
-          if (refreshTime != null && user != null) {
-            debugPrint("Force refresh token: $refreshTime, uid:${user.uid}");
-            /// force an ID token refresh, which will cause a new stream event
-            /// to be emitted by [idTokenChanges]
-            await user.forceRefreshIdToken();
-          }
+        /// * and register a subscription
+        _subscription = ref
+          .read(userMetadataRepositoryProvider)
+          .watchUserMetadata(user.uid)
+          .listen((refreshTime) async {
+            /// read user again as it may be null by the time we reach this callback
+            final user = ref.read(authRepositoryProvider).currentUser;
+            if (refreshTime != null && user != null) {
+              debugPrint("Force token refresh: $refreshTime, uid:${user.uid}");
+              /// * force an ID token refresh, which will cause a new stream of event
+              /// * to be emitted by [ `idTokenChanges` ]
+              await user.forceRefreshIdToken();
+            }
         });
       }
     });
@@ -37,5 +49,8 @@ class UserTokenRefreshService {
 
 @Riverpod(keepAlive: true)
 UserTokenRefreshService userTokenRefreshService(UserTokenRefreshServiceRef ref) {
-  return UserTokenRefreshService(ref);
+  final service = UserTokenRefreshService(ref);
+  ref.onDispose(service.dispose);
+
+  return service;
 }

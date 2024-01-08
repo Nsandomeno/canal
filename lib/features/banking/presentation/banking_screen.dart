@@ -4,8 +4,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PlaidScreen extends ConsumerWidget {
-  const PlaidScreen({super.key});
+class BankingScreen extends ConsumerWidget {
+  const BankingScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,11 +17,11 @@ class PlaidScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Existing Bank Account'),
+        title: const Text('Bank Account'),
       ),
       body: Center(
         child: ElevatedButton(
-          child: const Text("Link Bank"),
+          child: const Text("Open Now"),
           onPressed: () => print("implement!"),
         ),
       ),

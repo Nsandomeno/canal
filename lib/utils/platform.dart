@@ -30,16 +30,24 @@ enum PlatformEnv {
 
 
 class ClientDevice {
-  late PlatformEnv platformEnv;
-  late dynamic options;
-  late ActivePlatform activePlatform;
+  ClientDevice() {
+    _init();
+  }
+
+  late PlatformEnv env;
+  late ActivePlatform platform;
+
+  void _init() {
+    env = determineEnv();
+    platform = determinePlatform();
+  }
 
   String getPlatform() {
-    return activePlatform.name;
+    return platform.name;
   }
 
   String getPlatformEnv() {
-    return platformEnv.name;
+    return env.name;
   }
 
   /// currently all that is needed !!!
@@ -55,6 +63,8 @@ class ClientDevice {
       return PlatformEnv.mobileWeb;
     } else if (GetPlatform.isDesktop) {
       return PlatformEnv.desktop;
+    } else if (GetPlatform.isIOS || GetPlatform.isAndroid) {
+      return PlatformEnv.mobile;
     } else {
       throw Exception("Failed to determine platform environment.");
     }

@@ -24,13 +24,13 @@ extension FirebaseBootstrap on AppBootstrap {
   /// NOTE: no overrides to add at this stage.
   Future<ProviderContainer> createFirebaseProviderContainer({bool addDelay = true}) async {
     /// NOTE: no overrides at this stage.
-    final authRepository = MockAuthRepository(addDelay: addDelay);
+    ///final authRepository = MockAuthRepository(addDelay: addDelay);
     /// extending the default fake expiry (in seconds)
-    final userMetadataRepository = MockUserMetadataRepository(addDelay: true, expiresInSecs: 120);
+    ///final userMetadataRepository = MockUserMetadataRepository(addDelay: true, expiresInSecs: 120);
     return ProviderContainer(
       overrides: [
-        authRepositoryProvider.overrideWithValue(authRepository),
-        userMetadataRepositoryProvider.overrideWithValue(userMetadataRepository),
+        ///authRepositoryProvider.overrideWithValue(authRepository),
+        ///userMetadataRepositoryProvider.overrideWithValue(userMetadataRepository),
       ],
       observers: [AsyncErrorLogger()],
     );
