@@ -21,6 +21,9 @@ Requires an invitation to nicholas.sandomeno@gmail.com's Firebase Console.
 Configure Firebase project 
 `flutterfire configure --project=< FIREBASE PROJECT ID >`
 
+Add a feature after initial configuration
+`firebase init [ feature ]`
+
 # Local Emulators
 
 first run

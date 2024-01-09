@@ -1,6 +1,6 @@
 import 'package:canal/features/account/domain/account.dart';
 
-/// test account to be used until in localized, demo, or test cases
+/// test account to be used in localized, demo, or test cases
 const kTestBlankAccount = Account(
   plaidLink: false,
   baasAccount: false, 
