@@ -32,23 +32,22 @@ class StyledButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isEnabled = onPressed != null; 
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
       child: Stack(
         children: <Widget>[
           Positioned.fill(
             child: Container(
-              decoration: BoxDecoration(
-                gradient: enabled ?
-                  const LinearGradient(
+              decoration: isEnabled ? const BoxDecoration(
+                gradient: LinearGradient(
                     colors: <Color>[
                       Color(0xFF0D47A1),
                       Color(0xFF1976D2),
                       Color(0xFF42A5F5),
                     ]
                   )
-                : const LinearGradient(colors: [Colors.blueGrey])
-              ),
+              ) : null,
             ),
           ),
           TextButton(

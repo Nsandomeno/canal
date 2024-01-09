@@ -2,9 +2,18 @@ const admin = require("firebase-admin");
 const logger = require("firebase-functions/logger");
 const functions = require("firebase-functions");
 const crypto = require("crypto");
-const { FieldValue } = require("firebase-admin/firestore");
 
+const { FieldValue } = require("firebase-admin/firestore");
+/**
+ * @initFirebase
+ * this will require credentials in any remote backend environment.
+ */
 admin.initializeApp();
+
+exports.sendVerificationEmail = functions.https.onRequest((request, response) => {
+    functions.logger.info("Sending verification email.", {structuredData: true});
+    return response.send("sent email verification.");
+});
 
 exports.initAccount = functions.auth.user().onCreate(async (user, _) => {
     logger.log(user);

@@ -1,15 +1,19 @@
 import 'package:canal/constants/sizes.dart';
+import 'package:canal/localization/string_hardcoded.dart';
+import 'package:canal/router/router.dart';
 import 'package:canal/widgets/responsive_info_panel.dart';
 import 'package:canal/widgets/responsive_scrollable_card.dart';
 import 'package:canal/widgets/styled_button.dart';
 import 'package:flutter/material.dart';
 import 'package:canal/constants/breakpoints.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 /// TODO note this file for styling and constant centralization
 
 class NewUserPanel extends StatelessWidget {
-  const NewUserPanel({super.key});
+  const NewUserPanel({super.key, required this.emailVerified});
+
+  final bool emailVerified;
   
   double responsiveFixedHeightBanner(double screenHeight) {
     if (screenHeight > Breakpoint.desktop) {
@@ -25,6 +29,10 @@ class NewUserPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String emailVerifiedWarningText = emailVerified ?
+      "" : 
+      "Please verify your email!".hardcoded;
+
     var screenSize = MediaQuery.of(context).size.height;
     /// TODO use this snippet as model for enabling / disabling buttons
     var openBankEnabled = false;
@@ -34,7 +42,13 @@ class NewUserPanel extends StatelessWidget {
     }
 
     void goToPlaidLink() {
-      
+      // TODO goNamed or pushNamed?
+      context.goNamed(Routes.plaid.name);
+    }
+
+    void goToBanking() {
+      // TODO goNamed or pushNamed?
+      context.goNamed(Routes.banking.name);
     }
 
     return Column(
@@ -49,11 +63,12 @@ class NewUserPanel extends StatelessWidget {
                   gapH4,
                   RichText(
                     maxLines: 6,
-                    text: const TextSpan(
-                      style: TextStyle(fontSize: 14.0, color: Colors.black),
+                    text: TextSpan(
+                      style: const TextStyle(fontSize: 14.0, color: Colors.black),
                       children: <TextSpan>[
-                        TextSpan(text: " Link an existing bank account to get started the fasted."),
-                        TextSpan(text: " Or, open a new one through us in minutes."),
+                        const TextSpan(text: " Link an existing bank account to get started the fasted."),
+                        const TextSpan(text: " Or, open a new one through us in minutes. "),
+                        TextSpan(text: emailVerifiedWarningText, style: const TextStyle(fontSize: 14.0, color: Colors.red))
                       ]
                     )
                   ),
@@ -61,7 +76,7 @@ class NewUserPanel extends StatelessWidget {
               ),
             ),
           ),
-          gapH8,
+          gapH4,
           ResponsiveInfoCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,13 +85,13 @@ class NewUserPanel extends StatelessWidget {
                   "Link an Existing Bank Account",
                   style: TextStyle(fontSize: Sizes.p24),
                 ),
-                gapH16,
+                gapH8,
                 StyledButton(
                   text: "Link Now", 
                   fontColor: Colors.white,
-                  onPressed: () => printInfo(info: "test"),
+                  onPressed: () => goToPlaidLink(),
                 ),
-                gapH16,
+                gapH8,
                 RichText(
                   maxLines: 6,
                   text: const TextSpan(
@@ -87,7 +102,7 @@ class NewUserPanel extends StatelessWidget {
               ],
             )
           ),
-          gapH8,
+          gapH4,
           ResponsiveInfoCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -96,13 +111,13 @@ class NewUserPanel extends StatelessWidget {
                   "Open a Bank Account",
                   style: TextStyle(fontSize: Sizes.p24),
                 ),
-                gapH16,
+                gapH8,
                 StyledButton(
                   text: "Open Now", 
                   fontColor: Colors.white,
-                  onPressed: () => printInfo(info: "TODO implement."),
+                  onPressed: () => goToBanking(),
                 ),
-                gapH16,
+                gapH8,
                 RichText(
                   maxLines: 6,
                   text: const TextSpan(

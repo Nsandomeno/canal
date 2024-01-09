@@ -1,4 +1,5 @@
 import 'package:canal/features/auth/data/auth_repository.dart';
+import 'package:canal/features/auth/presentation/home/profile_screen.dart';
 import 'package:canal/features/auth/presentation/sign_in/sign_in_form_type.dart';
 import '../features/auth/presentation/sign_in/sign_in_screen.dart';
 import '../features/auth/presentation/home/home_screen.dart';
@@ -50,11 +51,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: Routes.home.name,
         builder: (context, state) => const Home(),
         routes: [
-          // GoRoute(
-          //   path: 'profile',
-          //   name: Routes.profile.name,
-          //   builder: (context, state) => const Profile(),
-          // ),
+          GoRoute(
+            path: 'profile',
+            name: Routes.profile.name,
+            builder: (context, state) => const ProfileScreen(),
+          ),
           GoRoute(
             path: "plaid",
             name: Routes.plaid.name,
