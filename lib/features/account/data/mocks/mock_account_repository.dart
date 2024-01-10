@@ -28,6 +28,16 @@ class MockAccountRepository implements AccountRepository {
   }
 
   @override
+  Future<List<KycDocument?>> fetchDocuments(String parentDocId) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<List<KycDocument?>> watchDocuments(String parentDocId) {
+    throw UnimplementedError();
+  }
+
+  @override
   Stream<Account?> watchAccount(String docId) {
     // docId in the mock repository represents a string representation
     // of a variant of KTestAccountStates

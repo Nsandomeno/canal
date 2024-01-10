@@ -78,3 +78,32 @@ class AccountRepository {
 AccountRepository accountRepository(AccountRepositoryRef ref) {
   return AccountRepository(FirebaseFirestore.instance);
 }
+
+
+@riverpod
+Stream<Account?> accountStream(AccountStreamRef ref, String userUid) {
+  final accountRepository = ref.watch(accountRepositoryProvider);
+
+  return accountRepository.watchAccount(userUid);
+}
+
+@riverpod
+Future<Account?> accountFuture(AccountFutureRef ref, String userUid) {
+  final accountRepository = ref.watch(accountRepositoryProvider);
+
+  return accountRepository.fetchAccount(userUid);
+}
+
+
+@riverpod
+Stream<List<KycDocument?>> kycDocumentListStream(KycDocumentListStreamRef ref, String userUid) {
+  final accountRepository = ref.watch(accountRepositoryProvider);
+  
+  return accountRepository.watchDocuments(userUid);
+}
+
+@riverpod
+Future<List<KycDocument?>> kycDocumentListFuture(KycDocumentListFutureRef ref, String userUid) {
+  final accountRepository = ref.watch(accountRepositoryProvider);
+  return accountRepository.fetchDocuments(userUid);
+}
