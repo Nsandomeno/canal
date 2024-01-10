@@ -14,7 +14,7 @@ class StyledButton extends StatelessWidget {
     ///this.height = Sizes.p48,
     this.enabled = true,
     this.borderRadius = Sizes.p4,
-    this.fontSize = Sizes.p16,
+    this.fontSize = Sizes.p12,
     this.backgroundColor = Colors.teal,
     this.fontColor = Colors.black45, /// used as foregroundColor for gradient
     this.disabledColor = Colors.grey,
@@ -54,11 +54,14 @@ class StyledButton extends StatelessWidget {
             style: TextButton.styleFrom(
               disabledBackgroundColor: disabledColor,
               foregroundColor: fontColor,
-              padding: const EdgeInsets.all(Sizes.p12),
+              //padding: const EdgeInsets.all(Sizes.p16),
+              alignment: Alignment.center,
               textStyle: TextStyle(fontSize: fontSize, color: fontColor)
             ),
             onPressed: onPressed, 
-            child: Text(text)
+            child: Center(
+              child: Text(text),
+            )
           )
         ],
       )

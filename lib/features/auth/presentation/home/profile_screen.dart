@@ -1,6 +1,7 @@
 import 'package:canal/features/auth/data/auth_repository.dart';
 import 'package:canal/features/auth/presentation/home/profile_screen_controller.dart';
 import 'package:canal/widgets/alert_dialog.dart';
+import 'package:canal/widgets/responsive_text.dart';
 import 'package:flutter/material.dart';
 import 'package:canal/utils/async_value_ui.dart';
 import 'package:canal/widgets/styled_button.dart';
@@ -49,60 +50,68 @@ class ProfileScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             /// email verification row (widget)
-            Row(
+            Column(
               children: [
                 const Text("Email", style: TextStyle(fontSize: Sizes.p24, color: Colors.black, fontWeight: FontWeight.bold),),
-                gapW12,
-                Text(
-                  user?.email ?? "", 
-                  style: const TextStyle(fontSize: Sizes.p20, color: Colors.grey, fontWeight: FontWeight.normal),
+                gapW4,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ResponsiveText(
+                      text: user?.email ?? "", 
+                      fontWeight: FontWeight.normal,
+                      fontColor: Colors.grey,
+                      scaleSize: 1.2,
+                      ///style: const TextStyle(fontSize: Sizes.p16, color: Colors.grey, fontWeight: FontWeight.normal),
+                    ),
+                    gapW4,
+                    userVerified() ?
+                      const Text("Email verified.") :
+                      StyledButton(
+                          text: "Verify Email",
+                          fontColor: Colors.white,
+                          onPressed: state.isLoading ? null :
+                            () async {
+                              return await onVerifyEmailPress(context);
+                          },
+                      ),
+                  ],
                 ),
-                gapW12,
-                userVerified() ?
-                  const Text("Email verified.") :
-                  StyledButton(
-                    text: "Verify Email",
-                    fontColor: Colors.white,
-                    onPressed: state.isLoading ? null :
-                      () async {
-                        return await onVerifyEmailPress(context);
-                    },
-                  ),
               ],
             ),
             gapH12,
             /// kyc documentation
-            const Column(
+            Column(
               children: [
-                Text("KYC Documents", style: TextStyle(fontSize: Sizes.p24, color: Colors.black, fontWeight: FontWeight.bold)),
+                const Text("KYC Documents", style: TextStyle(fontSize: Sizes.p24, color: Colors.black, fontWeight: FontWeight.bold)),
 
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text("U.S. Driver's License (Front)", style: TextStyle(fontSize: Sizes.p16, color: Colors.grey, fontWeight: FontWeight.bold),),
+                    const Text("U.S. Driver's License (Front)", style: TextStyle(fontSize: Sizes.p16, color: Colors.grey, fontWeight: FontWeight.bold),),
                     gapW4,
-                    Expanded(
-                      child: Card(
-                        color: Colors.lightBlueAccent, shadowColor: Colors.teal, elevation: 5,
-                        child: Icon(Icons.edit_document),
-                      ),
+                    StyledButton(
+                      text: "Upload",
+                      fontColor: Colors.white,
+                      onPressed: () => debugPrint("TODO"),
                     )
                   ],
                 ),
-
+                gapH12,
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text("U.S. Driver's License (Back)", style: TextStyle(fontSize: Sizes.p16, color: Colors.grey, fontWeight: FontWeight.bold),),
+                    const Text("U.S. Driver's License (Back) ", style: TextStyle(fontSize: Sizes.p16, color: Colors.grey, fontWeight: FontWeight.bold),),
                     gapW4,
-                    Expanded(
-                      child: Card(
-                        color: Colors.lightBlueAccent, shadowColor: Colors.teal, elevation: 5,
-                        child: Icon(Icons.edit_document),
-                      ),
+                    StyledButton(
+                      text: "Upload",
+                      fontColor: Colors.white,
+                      onPressed: () => debugPrint("TODO"),
                     )
                   ]
                 )
               ],
-            )
+            ),
           ],
         ),
       ),

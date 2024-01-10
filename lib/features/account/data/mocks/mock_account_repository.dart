@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:canal/features/account/domain/document.dart';
 import 'package:canal/features/account/domain/mock_account.dart';
 import 'package:canal/features/account/data/account_repository.dart';
 import 'package:canal/features/account/domain/account.dart';
@@ -32,7 +33,10 @@ class MockAccountRepository implements AccountRepository {
     // of a variant of KTestAccountStates
     return streamAccounts().map((accounts) => _getAccount(accounts, docId));
   }
-
+  @override
+  Future<void> addKycDoc(String uid, KycDocument userDoc) async {
+    throw UnimplementedError();
+  }
   @override
   Future<void> updateAccount(Account account, String docId) {
     throw UnimplementedError();

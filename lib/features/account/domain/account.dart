@@ -1,3 +1,4 @@
+import 'package:canal/features/account/domain/document.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
