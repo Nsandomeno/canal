@@ -21,6 +21,8 @@ class AccountRepository {
   }
 
   Future<List<KycDocument?>> fetchDocuments(String parentDocId) async {
+    /// TODO may need to do things this way:
+    /// * https://firebase.google.com/docs/firestore/query-data/listen
     final ref = _kycDocsRef(parentDocId);
     final snapshot = await ref.get();
     return snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList();
@@ -32,6 +34,8 @@ class AccountRepository {
   }
 
   Stream<List<KycDocument?>> watchDocuments(String parentDocId) {
+    /// TODO may need to do things this way:
+    /// * https://firebase.google.com/docs/firestore/query-data/listen
     final ref = _kycDocsRef(parentDocId);
     return ref.snapshots().map((snapshot) => 
       snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList()
@@ -73,12 +77,10 @@ class AccountRepository {
   }
 }
 
-
 @Riverpod(keepAlive: true)
 AccountRepository accountRepository(AccountRepositoryRef ref) {
   return AccountRepository(FirebaseFirestore.instance);
 }
-
 
 @riverpod
 Stream<Account?> accountStream(AccountStreamRef ref, String userUid) {
