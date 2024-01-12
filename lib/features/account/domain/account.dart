@@ -6,46 +6,65 @@ class Account extends Equatable {
   ///  TODO make a cloud function for updatedAt
   /// and add an optional field here.
   const Account({
-    required this.accountId,
-    required this.plaidLink, 
-    required this.baasAccount,
-    required this.baseCurrency,
-    this.lnurl,
+    this.baseCurrency = "USD",
+    this.plaidBankType,
+    this.plaidBankName,
+    this.plaidBankAccountNumber,
+    this.bankAccountType,
+    this.bankAccountKycStatus,
+    this.bankAccountNumber,
+    this.bankAccountRouting,
     this.createdAt,
+    this.updatedAt,
   });
 
-  final String accountId;
-  final bool plaidLink;
-  final bool baasAccount;
   final String baseCurrency;
-  final String? lnurl;
+  /// plaid
+  final String? plaidBankAccountNumber;
+  final String? plaidBankName;
+  final String? plaidBankType;
+  /// baas provider
+  final String? bankAccountType;
+  final String? bankAccountKycStatus;
+  final String? bankAccountNumber;
+  final String? bankAccountRouting;
+  /// meta (consider handling with triggers i.e. firebase cloud functions for now).
+  final DateTime? updatedAt;
   final DateTime? createdAt;
 
 
   factory Account.fromMap(Map<String, dynamic> map) {
     final createdAt = map["createdAt"];
-    final lnurl     = map["lnurl"];
+    final updatedAt = map["updatedAt"];
 
     return Account(
-      accountId    : map["accountId"] as String,
-      baseCurrency : map["baseCurrency"] as String,
-      plaidLink    : map["plaidLink"] as bool,
-      baasAccount  : map["baasAccount"] as bool,
-      createdAt    : createdAt != null ? (createdAt as Timestamp).toDate() : null,
-      lnurl        : lnurl,
+      baseCurrency: map["baseCurrency"] as String, /// enumerate
+      plaidBankType: map["plaidBankType"] as String?,
+      plaidBankName: map["plaidBankName"] as String?,
+      plaidBankAccountNumber: map["plaidBankAccountNumber"] as String?,
+      bankAccountNumber: map["bankAccountNumber"] as String?,
+      bankAccountRouting: map["bankAccountRouting"] as String?,
+      bankAccountKycStatus: map["bankAccountKycStatus"] as String?, /// enumerate
+      bankAccountType: map["bankAccountType"] as String?, /// enumerate
+      createdAt: createdAt != null ? (createdAt as Timestamp).toDate() : null, /// applied server-side
+      updatedAt: updatedAt != null ? (updatedAt as Timestamp).toDate() : null, /// applied server-side
     );
   }
 
   Map<String, dynamic> toMap() => {
-    "accountId": accountId,
     "baseCurrency": baseCurrency,
-    "plaidLink": plaidLink,
-    "baasAccount": baasAccount,
-    "lnurl": lnurl,
+    "plaidBankType": plaidBankType,
+    "plaidBankName": plaidBankName,
+    "plaidBankAccountNumber": plaidBankAccountNumber,
+    "bankAccountNumber": bankAccountNumber,
+    "bankAccountRouting": bankAccountRouting,
+    "bankAccountType": bankAccountType,
+    "bankAccountKycStatus": bankAccountKycStatus,
     if (createdAt != null) 'createdAt': Timestamp.fromDate(createdAt!),
+    if (updatedAt != null) 'updatedAt': Timestamp.fromDate(updatedAt!),
   };
 
   @override
-  List<Object?> get props => [baseCurrency, plaidLink, lnurl];
+  List<Object?> get props => [baseCurrency];
 }
 

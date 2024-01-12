@@ -2,34 +2,56 @@ import 'package:canal/features/account/domain/account.dart';
 
 /// test account to be used in localized, demo, or test cases
 const kTestBlankAccount = Account(
-  plaidLink: false,
-  baasAccount: false, 
   baseCurrency: "usd",
-  accountId: "1"
+  plaidBankAccountNumber: null,
+  bankAccountNumber: null,
 );
 
 const kTestPlaidLinkedAccount = Account(
-  plaidLink: true,
-  baasAccount: false,
   baseCurrency: "usd",
-  accountId: "2"
+  bankAccountNumber: null,
+  plaidBankAccountNumber: "138558222",
+  plaidBankName: "Chase",
+  plaidBankType: "Checking",
 );
 
-const kTestBaasAccount = Account(
-  plaidLink: false,
-  baasAccount: true,
+const kTestBaasAccountApproved = Account(
   baseCurrency: "usd",
-  accountId: "2",
+  plaidBankAccountNumber: null,
+  bankAccountNumber: "1385583111",
+  bankAccountRouting: "3330000055",
+  bankAccountType: "Canal Virtual Checking",
+  bankAccountKycStatus: "approved",
+);
+
+const kTestBaasAccountPending = Account(
+  baseCurrency: "usd",
+  plaidBankAccountNumber: null,
+  bankAccountNumber: "1385583111",
+  bankAccountRouting: "3330000055",
+  bankAccountType: "Canal Virtual Checking",
+  bankAccountKycStatus: "pending",
+);
+
+const kTestBaasAccountRejected = Account(
+  baseCurrency: "usd",
+  plaidBankAccountNumber: null,
+  bankAccountNumber: "1385583111",
+  bankAccountRouting: "3330000055",
+  bankAccountType: "Canal Virtual Checking",
+  bankAccountKycStatus: "failed",
 );
 
 const preloadedAccounts = [
   kTestBlankAccount,
   kTestPlaidLinkedAccount,
-  kTestBaasAccount,
+  kTestBaasAccountApproved,
+  kTestBaasAccountPending,
+  kTestBaasAccountRejected,
 ];
 
 /// test account states
-enum KTestAccountStates { blank, plaidOnly, baasOnly }
+enum KTestAccountStates { blank, plaidOnly, baasOnly, baasPending, baasRejected }
 
 extension SelectAccount on KTestAccountStates {
   String get docId {
@@ -40,6 +62,10 @@ extension SelectAccount on KTestAccountStates {
         return "baasOnly";
       case KTestAccountStates.blank:
         return "blank";
+      case KTestAccountStates.baasPending:
+        return "baasPending";
+      case KTestAccountStates.baasRejected:
+        return "baasRejected";
     }
   }
 
@@ -48,9 +74,13 @@ extension SelectAccount on KTestAccountStates {
       case KTestAccountStates.plaidOnly:
         return kTestPlaidLinkedAccount;
       case KTestAccountStates.baasOnly:
-        return kTestBaasAccount;
+        return kTestBaasAccountApproved;
       case KTestAccountStates.blank:
         return kTestBlankAccount;
+      case KTestAccountStates.baasPending:
+        return kTestBaasAccountPending;
+      case KTestAccountStates.baasRejected:
+        return kTestBaasAccountRejected;
     }
   }
 

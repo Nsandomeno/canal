@@ -84,7 +84,9 @@ class MockAccountRepository implements AccountRepository {
 
     final accounts = _accounts.value;
     //final variant = KTestAccountStates.values.firstWhere((element) => element.docId == docId);
-    final index = accounts.indexWhere((element) => element.accountId == accountId);
+    final index = accounts.indexWhere((element) {
+      return element.bankAccountNumber == accountId || element.plaidBankAccountNumber == accountId;    
+    });
     if (index == -1) {
       // if not found, add as new account
       accounts.add(account);
