@@ -7,7 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:canal/localization/string_hardcoded.dart';
 import 'package:canal/router/router.dart';
 import 'package:canal/features/auth/domain/app_user.dart';
+/// TODO - important UX additions:
+/// * create conditional login within the onPressed method of [IconButton]
+///   to prevent routing to a page you are already on. the [redirect] attribute
+///   on [GoRouter] in /lib/router/router.dart can also be used to achieve this. Not sure yet which is better to do.
 
+///   use attributes of [MaterialApp.router]
 class UserAppBar extends ConsumerWidget implements PreferredSizeWidget {
   const UserAppBar({super.key});
 

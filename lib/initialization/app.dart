@@ -2,7 +2,11 @@ import 'package:canal/localization/string_hardcoded.dart';
 import 'package:canal/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+/// TODO - important UX additons:
+/// * try to find a less jumpy transition when clicking buttons that route to new screens
+///   or clicking the back button. I anticipate that the way to achieve
+///   this will be setting an attribute on [MaterialApp.router] related to
+///   transitions
 class App extends ConsumerWidget {
   const App({super.key});
 
