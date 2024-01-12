@@ -87,7 +87,27 @@ Builds
 - Information on how to setup CORS and displaying images (requires Google Cloud Platform):
 (1) https://docs.flutter.dev/platform-integration/web/web-images
 (2) https://stackoverflow.com/questions/65849071/flutter-firebase-storage-cors-issue
+(3) https://courses.codewithandrea.com/courses/flutter-firebase-masterclass-complete/lectures/46377975
 
+- NOTE: Add additional origins in production.
+
+This is the command that must be use the in the GCP cloud shell terminal:
+
+`echo '[{"origin": ["*"],"responseHeader": ["Content-Type"],"method": ["GET", "HEAD"],"maxAgeSeconds": 3600}]' > cors-config.json`
+
+This is how it should be done in production eventually (with the application domain specified)
+
+```
+echo '[{"origin": ["http://your-domain.com"],"responseHeader": ["Content-Type"],"method": ["GET", "HEAD"],"maxAgeSeconds": 3600}]' > cors-config.json
+gsutil cors set cors-config.json gs://YOUR_BUCKET_NAME
+
+```
+
+Then get the name of the storage bucket from Firebase Storage and copy it in to the parameter
+of this command
+`gsutil cors set cors-config.json < BUCKET URI >`
+
+Explicit routing configuration for web
 ```
 /// turn off the # in the URLs on the web
 if (device.isWeb) {
