@@ -14,10 +14,11 @@ class AccountRepository {
   static String documentPath(String docId) => "account/$docId";
   static String kycDocCollectionPath(String docId) => "account/$docId/kyc/";
 
-  Future<void> createAccount(
+  Future<void> setAccount(
     String userUid,
     Account account,
   ) {
+    /// * servers as an upsert
     return _firestore.doc(documentPath(userUid)).set(
       account.toMap(),
       /// use merge: true to keep old fields (if any exist)

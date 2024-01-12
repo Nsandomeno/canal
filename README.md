@@ -84,6 +84,10 @@ Builds
 
 - the `usePathUrlStrategy()` is conditionally called in the application entrypoints (main/mock_main for testing) if the `ClientDevice` class determines the user is accessing via the Web.
 
+- Information on how to setup CORS and displaying images (requires Google Cloud Platform):
+(1) https://docs.flutter.dev/platform-integration/web/web-images
+(2) https://stackoverflow.com/questions/65849071/flutter-firebase-storage-cors-issue
+
 ```
 /// turn off the # in the URLs on the web
 if (device.isWeb) {

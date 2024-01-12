@@ -13,11 +13,8 @@ class MockAccountRepository implements AccountRepository {
   });
   final bool addDelay;
   final KTestAccountStates mockId;
-  /// pre-load the test account:
-  // * kTestBlankAccount       (1)
-  // * kTestPlaidLinkedAccount (2)
-  // * kTestBaasAccount        (3)
-  ///
+  /// pre-load the test accounts
+
   final InMemoryStore<List<Account>> _accounts = InMemoryStore<List<Account>>(preloadedAccounts);
   /// overrides
   @override
@@ -28,7 +25,7 @@ class MockAccountRepository implements AccountRepository {
   }
 
   @override
-  Future<void> createAccount(String userUid, Account account) {
+  Future<void> setAccount(String userUid, Account account) {
     throw UnimplementedError();
   }
 
@@ -84,7 +81,7 @@ class MockAccountRepository implements AccountRepository {
   }
 
   /// helper for mock scenarios with updateAccount public interface method
-  Future<void> setAccount(Account account, String accountId) async {
+  Future<void> _setAccount(String accountId, Account account) async {
     await delay(addDelay);
 
     final accounts = _accounts.value;
