@@ -1,10 +1,7 @@
-import 'package:canal/features/account/domain/document.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class Account extends Equatable {
-  ///  TODO make a cloud function for updatedAt
-  /// and add an optional field here.
   const Account({
     this.baseCurrency = "USD",
     this.plaidBankType,

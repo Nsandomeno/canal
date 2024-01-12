@@ -28,6 +28,11 @@ class MockAccountRepository implements AccountRepository {
   }
 
   @override
+  Future<void> createAccount(String userUid, Account account) {
+    throw UnimplementedError();
+  }
+
+  @override
   Future<List<KycDocument?>> fetchDocuments(String parentDocId) async {
     throw UnimplementedError();
   }

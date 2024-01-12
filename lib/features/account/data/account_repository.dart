@@ -14,6 +14,17 @@ class AccountRepository {
   static String documentPath(String docId) => "account/$docId";
   static String kycDocCollectionPath(String docId) => "account/$docId/kyc/";
 
+  Future<void> createAccount(
+    String userUid,
+    Account account,
+  ) {
+    return _firestore.doc(documentPath(userUid)).set(
+      account.toMap(),
+      /// use merge: true to keep old fields (if any exist)
+      SetOptions(merge: true),
+    );
+  }
+
   Future<Account?> fetchAccount(String docId) async {
     final ref = _accountRef(docId);
     final snapshot = await ref.get();
