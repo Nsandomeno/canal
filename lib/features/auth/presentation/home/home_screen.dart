@@ -5,14 +5,36 @@ import 'package:canal/features/auth/presentation/home/new_user.dart';
 import 'package:canal/localization/string_hardcoded.dart';
 import 'package:canal/utils/async_value_ui.dart';
 import 'package:canal/widgets/async_widget.dart';
-import 'package:canal/widgets/error_message.dart';
+import 'package:canal/widgets/responsive_scrollable_card.dart';
 import 'package:canal/widgets/user_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:canal/features/account/domain/account.dart';
+import 'package:canal/widgets/responsive_text.dart';
 
 class Home extends ConsumerWidget {
   const Home({super.key});
+  /// helpers
+  String handleAccountNum(String? plaidActId, String? bankActNum) {
+    /// * this is only called within the condition of the build
+    /// * method where we have an account. The root of this screen
+    /// * is dependent on that conditional logic and this function
+    /// * should not be called within the condition where no account
+    /// * document is returned from the database.
+    /// 
+    /// * TLDR; we can guarantee that one of these two values is not null.
+    final actNum = plaidActId ?? bankActNum!;
+    /// retrieve len of bank account number
+    final totalChars = actNum.length;
+    /// retrieve the len of characters in the bank account number that will be masked (i.e. ****8720)
+    final maskLen = totalChars - 4;
+    /// create the mask
+    final mask = "*" * maskLen;
+    /// retrive the actual bank account numbers to display
+    final startIdx = (totalChars - 1) - 4; /// 1 to account for 0-based index vals
+    final nonMasked = actNum.substring(startIdx);
+    return mask + nonMasked;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,15 +58,32 @@ class Home extends ConsumerWidget {
 
     return AsyncValueWidget<Account?>(
       value: accountValue, 
-      /// TODO this should be checks on account properties
-      /// since every use has an account created for them
-      /// at registration.
       data: (account) => account != null
         /// TODO create separate widget for user w/ accounts
         ? Scaffold(
           appBar: const UserAppBar(),
-          body: Center(
-            child: ErrorMessage("COMING SOON".hardcoded),
+          body: ResponsiveScrollableCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ResponsiveText(text: "Accounts".hardcoded, fontColor: Colors.black, fontWeight: FontWeight.bold, fontSize: 24, scaleSize: 1.5,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ResponsiveText(text: account.plaidBankName ?? "Canal Virtual", fontColor: Colors.grey[350], fontWeight: FontWeight.normal, scaleSize: 1.5,),
+                    ResponsiveText(text: account.bankAccountType ?? account.plaidBankType!, fontWeight: FontWeight.normal, scaleSize: 1.5,),
+                    ResponsiveText(text: handleAccountNum(account.plaidBankAccountNumber, account.bankAccountNumber), fontColor: Colors.black, fontWeight: FontWeight.normal, scaleSize: 1.5,),                    
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ResponsiveText(text: "Balance".hardcoded, fontColor: Colors.grey[350], fontWeight: FontWeight.normal, scaleSize: 1.5,),
+                    ResponsiveText(text: account.balance.toString(), fontColor: Colors.black, fontWeight: FontWeight.normal, scaleSize: 1.5,),                  
+                  ],
+                ),
+              ],
+            ),
           ),
         )
         /// TODO create separate widget for brand new user
