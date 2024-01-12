@@ -5,8 +5,9 @@ rules_version = '2';
 //    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
 service firebase.storage {
   match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write: if false;
+    match /document/{id} {
+      allow read: if true; /// TODO add that an admin (the admin-sdk client in our Rust backend) should be able to read
+      allow write: if request.auth != null && request.auth.id == id; /// TODO add an admin token payload if the admin-sdk cannot write for kyc status updates
     }
   }
 }
