@@ -15,6 +15,15 @@ const kTestPlaidLinkedAccount = Account(
   plaidBankType: "Checking",
 );
 
+const kTestBaasAccountFunded = Account(
+  baseCurrency: "usd",
+  plaidBankAccountNumber: null,
+  bankAccountNumber: "1385583111",
+  bankAccountRouting: "3330000055",
+  bankAccountType: "Canal Virtual Checking",
+  bankAccountKycStatus: "approved",  
+);
+
 const kTestBaasAccountApproved = Account(
   baseCurrency: "usd",
   plaidBankAccountNumber: null,

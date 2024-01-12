@@ -11,11 +11,13 @@ class Account extends Equatable {
     this.bankAccountKycStatus,
     this.bankAccountNumber,
     this.bankAccountRouting,
+    this.balance = 0.00,
     this.createdAt,
     this.updatedAt,
   });
 
   final String baseCurrency;
+  final double balance;
   /// plaid
   final String? plaidBankAccountNumber;
   final String? plaidBankName;
@@ -36,6 +38,7 @@ class Account extends Equatable {
 
     return Account(
       baseCurrency: map["baseCurrency"] as String, /// enumerate
+      balance: map["balance"] as double,
       plaidBankType: map["plaidBankType"] as String?,
       plaidBankName: map["plaidBankName"] as String?,
       plaidBankAccountNumber: map["plaidBankAccountNumber"] as String?,
@@ -50,6 +53,7 @@ class Account extends Equatable {
 
   Map<String, dynamic> toMap() => {
     "baseCurrency": baseCurrency,
+    "balance"     : balance,
     "plaidBankType": plaidBankType,
     "plaidBankName": plaidBankName,
     "plaidBankAccountNumber": plaidBankAccountNumber,
@@ -62,6 +66,6 @@ class Account extends Equatable {
   };
 
   @override
-  List<Object?> get props => [baseCurrency];
+  List<Object?> get props => [baseCurrency, balance, bankAccountNumber, plaidBankAccountNumber];
 }
 
