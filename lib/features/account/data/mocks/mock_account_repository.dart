@@ -5,11 +5,12 @@ import 'package:canal/features/account/data/account_repository.dart';
 import 'package:canal/features/account/domain/account.dart';
 import 'package:canal/utils/delay.dart';
 import 'package:canal/utils/in_memory_store.dart';
-
+/// TODO 
+/// * these helpers must be revisted during testing
 class MockAccountRepository implements AccountRepository {
   MockAccountRepository({
     this.addDelay = true, 
-    this.mockId = KTestAccountStates.blank
+    this.mockId = KTestAccountStates.tpNotStarted
   });
   final bool addDelay;
   final KTestAccountStates mockId;
@@ -87,7 +88,7 @@ class MockAccountRepository implements AccountRepository {
     final accounts = _accounts.value;
     //final variant = KTestAccountStates.values.firstWhere((element) => element.docId == docId);
     final index = accounts.indexWhere((element) {
-      return element.bankAccountNumber == accountId || element.plaidBankAccountNumber == accountId;    
+      return element.accountNum == accountId;    
     });
     if (index == -1) {
       // if not found, add as new account

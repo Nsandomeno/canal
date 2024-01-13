@@ -15,16 +15,13 @@ import 'package:canal/widgets/responsive_text.dart';
 class Home extends ConsumerWidget {
   const Home({super.key});
   /// helpers
-  String handleAccountNum(String? plaidActId, String? bankActNum) {
-    /// * this is only called within the condition of the build
-    /// * method where we have an account. The root of this screen
-    /// * is dependent on that conditional logic and this function
-    /// * should not be called within the condition where no account
-    /// * document is returned from the database.
-    /// 
-    /// * TLDR; we can guarantee that one of these two values is not null.
-    final actNum = plaidActId ?? bankActNum!;
+  String handleAccountNum(String? actNum) {
     /// retrieve len of bank account number
+    if (actNum == null) {
+      /// return N/A if an account number has not yet been appended.
+      /// * This hopefully should not have to be possible.
+      return "N / A";
+    }
     final totalChars = actNum.length;
     /// retrieve the len of characters in the bank account number that will be masked (i.e. ****8720)
     final maskLen = totalChars - 4;
@@ -70,9 +67,9 @@ class Home extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    ResponsiveText(text: account.plaidBankName ?? "Canal Virtual", fontColor: Colors.grey[350], fontWeight: FontWeight.normal, scaleSize: 1.5,),
-                    ResponsiveText(text: account.bankAccountType ?? account.plaidBankType!, fontWeight: FontWeight.normal, scaleSize: 1.5,),
-                    ResponsiveText(text: handleAccountNum(account.plaidBankAccountNumber, account.bankAccountNumber), fontColor: Colors.black, fontWeight: FontWeight.normal, scaleSize: 1.5,),                    
+                    ResponsiveText(text: account.accountSourceName, fontColor: Colors.grey[350], fontWeight: FontWeight.normal, scaleSize: 1.5,),
+                    ResponsiveText(text: account.accountType.name.toUpperCase(), fontWeight: FontWeight.normal, scaleSize: 1.5,),
+                    ResponsiveText(text: handleAccountNum(account.accountNum), fontColor: Colors.black, fontWeight: FontWeight.normal, scaleSize: 1.5,),                    
                   ],
                 ),
                 Row(
