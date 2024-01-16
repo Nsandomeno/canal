@@ -27,11 +27,11 @@ class KycService {
       .read(documentUploadRepositoryProvider)
       .uploadDocument(user.uid, docId, data);
     /// convert doc metadata to a kyc sub-collection document
-    final KycDocument kycDoc = docMeta.toKycDoc(url, docId);
+    ///final KycDocument kycDoc = docMeta.toKycDoc(url, docId);
     /// upload the document's record to firestore 
     await ref
-      .read(accountRepositoryProvider)
-      .addKycDoc(user.uid, kycDoc);
+      .read(accountRepositoryProvider);
+      ///.addKycDoc(user.uid, kycDoc);
   }
 }
 

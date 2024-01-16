@@ -18,27 +18,31 @@ class MockAccountRepository implements AccountRepository {
 
   final InMemoryStore<List<Account>> _accounts = InMemoryStore<List<Account>>(preloadedAccounts);
   /// overrides
+  @override 
+  Future<void> createAccount(Account account) {
+    throw UnimplementedError();
+  }
   @override
-  Future<Account?> fetchAccount(String docId) {
+  Future<List<Account?>> fetchAccounts(String userUid) {
     // docId in the mock repository represents a string representation
     // of a variant of KTestAccountStates
-    return Future.value(_getAccount(_accounts.value, docId));
+    return Future.value([_getAccount(_accounts.value, userUid)]);
   }
 
-  @override
-  Future<void> setAccount(String userUid, Account account) {
-    throw UnimplementedError();
-  }
+  // @override
+  // Future<void> setAccount(String userUid, Account account) {
+  //   throw UnimplementedError();
+  // }
 
-  @override
-  Future<List<KycDocument?>> fetchDocuments(String parentDocId) async {
-    throw UnimplementedError();
-  }
+  // @override
+  // Future<List<KycDocument?>> fetchDocuments(String parentDocId) async {
+  //   throw UnimplementedError();
+  // }
 
-  @override
-  Stream<List<KycDocument?>> watchDocuments(String parentDocId) {
-    throw UnimplementedError();
-  }
+  // @override
+  // Stream<List<KycDocument?>> watchDocuments(String parentDocId) {
+  //   throw UnimplementedError();
+  // }
 
   @override
   Stream<Account?> watchAccount(String docId) {
@@ -46,10 +50,12 @@ class MockAccountRepository implements AccountRepository {
     // of a variant of KTestAccountStates
     return streamAccounts().map((accounts) => _getAccount(accounts, docId));
   }
-  @override
-  Future<void> addKycDoc(String uid, KycDocument userDoc) async {
-    throw UnimplementedError();
-  }
+
+  // @override
+  // Future<void> addKycDoc(String uid, KycDocument userDoc) async {
+  //   throw UnimplementedError();
+  // }
+
   @override
   Future<void> updateAccount(Account account, String docId) {
     throw UnimplementedError();

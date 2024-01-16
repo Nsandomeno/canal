@@ -30,9 +30,10 @@ class KycDocMeta extends Equatable {
     "kycDocType": kycDocType.name
   };
 
-  KycDocument toKycDoc(String url, String docId) {
+  KycDocument toKycDoc(String url, String userUid, String accountDocId) {
     return KycDocument(
-      docId: docId,
+      userUid: userUid,
+      accountDocId: accountDocId,
       url: url, 
       name: name, 
       kycDocType: kycDocType.name, 
@@ -46,7 +47,8 @@ class KycDocMeta extends Equatable {
 
 class KycDocument extends Equatable {
   const KycDocument({
-    required this.docId,
+    required this.userUid,
+    required this.accountDocId,
     required this.url,
     required this.name,
     required this.kycDocType,
@@ -55,7 +57,8 @@ class KycDocument extends Equatable {
     this.updatedAt,
   });
 
-  final String docId; // Firestore document ID
+  final String accountDocId;
+  final String userUid;
   final String name;
   final String url; 
   final String kycDocType;
@@ -67,26 +70,35 @@ class KycDocument extends Equatable {
     final createdAt = map["createdAt"];
     final updatedAt = map["updatedAt"];
     return KycDocument(
-      docId      : map["docId"] as String,
-      name       : map["name"] as String,
-      kycDocType : map["kycDocType"] as String,
-      fileType   : map["fileType"] as String,
-      url        : map["url"] as String,
-      createdAt  : createdAt != null ? (createdAt as Timestamp).toDate() : null,
-      updatedAt  : updatedAt != null ? (updatedAt as Timestamp).toDate() : null,
+      accountDocId : map["accountDocId"] as String,
+      userUid      : map["userUid"] as String,
+      name         : map["name"] as String,
+      kycDocType   : map["kycDocType"] as String,
+      fileType     : map["fileType"] as String,
+      url          : map["url"] as String,
+      createdAt    : createdAt != null ? (createdAt as Timestamp).toDate() : null,
+      updatedAt    : updatedAt != null ? (updatedAt as Timestamp).toDate() : null,
     );
   }
 
   Map<String, dynamic> toMap() => {
-    "docId"     : docId,
-    "name"      : name,
-    "kycDocType": kycDocType,
-    "fileType"  : fileType,
-    "url"       : url, 
+    "accountDocId" : accountDocId,
+    "userUid"      : userUid,
+    "name"         : name,
+    "kycDocType"   : kycDocType,
+    "fileType"     : fileType,
+    "url"          : url, 
     if (createdAt != null) "createdAt": Timestamp.fromDate(createdAt!),
     if (updatedAt != null) "updatedAt": Timestamp.fromDate(updatedAt!),
   };
 
   @override
-  List<Object?> get props => [docId, url, name, kycDocType, fileType];
+  List<Object?> get props => [
+    userUid, 
+    accountDocId, 
+    url, 
+    name, 
+    kycDocType, 
+    fileType
+  ];
 }

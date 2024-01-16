@@ -4,7 +4,9 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     match /account/{id} {
-      allow read, write: if request.auth.uid == id;
+      /// TODO make this much better, perhaps the users token
+      ///      should carry claims on auth.token related to its account document IDs
+      allow read, write: if request.auth.uid != null;
 
     }
     match /metadata/{id} {

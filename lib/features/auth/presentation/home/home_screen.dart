@@ -1,3 +1,5 @@
+import 'package:canal/constants/sizes.dart';
+import 'package:canal/utils/currency_formatter.dart';
 import 'package:canal/features/account/data/account_repository.dart';
 import 'package:canal/features/auth/data/auth_repository.dart';
 import 'package:canal/features/auth/presentation/home/home_screen_controller.dart';
@@ -5,7 +7,6 @@ import 'package:canal/features/auth/presentation/home/new_user.dart';
 import 'package:canal/localization/string_hardcoded.dart';
 import 'package:canal/utils/async_value_ui.dart';
 import 'package:canal/widgets/async_widget.dart';
-import 'package:canal/widgets/responsive_scrollable_card.dart';
 import 'package:canal/widgets/user_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,37 +52,99 @@ class Home extends ConsumerWidget {
     
     /// final state = ref.watch(homeScreenControllerProvider);
     /// due to the router, we can safely use the null override here
-    final accountValue = ref.watch(accountFutureProvider(user!.uid));
+    final accountsValue = ref.watch(accountsFutureProvider(user!.uid));
 
-    return AsyncValueWidget<Account?>(
-      value: accountValue, 
-      data: (account) => account != null
+    return AsyncValueWidget<List<Account?>>(
+      value: accountsValue, 
+      data: (accounts) => accounts.isNotEmpty
         /// TODO create separate widget for user w/ accounts
         ? Scaffold(
           appBar: const UserAppBar(),
-          body: ResponsiveScrollableCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+          body:  Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ResponsiveText(text: "Accounts".hardcoded, fontColor: Colors.black, fontWeight: FontWeight.bold, fontSize: 24, scaleSize: 1.5,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ResponsiveText(text: account.accountSourceName, fontColor: Colors.grey[350], fontWeight: FontWeight.normal, scaleSize: 1.5,),
-                    ResponsiveText(text: account.accountType.name.toUpperCase(), fontWeight: FontWeight.normal, scaleSize: 1.5,),
-                    ResponsiveText(text: handleAccountNum(account.accountNum), fontColor: Colors.black, fontWeight: FontWeight.normal, scaleSize: 1.5,),                    
-                  ],
+                ResponsiveText(
+                  text: "Accounts".hardcoded, 
+                  fontColor: Colors.black, 
+                  fontWeight: FontWeight.bold, 
+                  fontSize: 24, 
+                  scaleSize: 1.5,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ResponsiveText(text: "Balance".hardcoded, fontColor: Colors.grey[350], fontWeight: FontWeight.normal, scaleSize: 1.5,),
-                    ResponsiveText(text: account.balance.toString(), fontColor: Colors.black, fontWeight: FontWeight.normal, scaleSize: 1.5,),                  
-                  ],
-                ),
+                /// iterate user's accounts
+                for (var account in accounts) 
+                  Card(  
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0), 
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ResponsiveText(
+                                text: account?.accountSourceName ?? "Canal", 
+                                fontColor: Colors.black, 
+                                fontWeight: FontWeight.bold, 
+                                scaleSize: .8,
+                              ),
+                              ResponsiveText(
+                                text: account?.accountType?.name.toUpperCase() ?? "Apply Now", 
+                                fontWeight: FontWeight.normal,
+                                fontColor: Colors.green, 
+                                scaleSize: .8,
+                              ),                  
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              ResponsiveText(
+                                text: "Act#: ".hardcoded,
+                                fontColor: Colors.grey[350],
+                                fontWeight: FontWeight.bold,
+                                scaleSize: .8,
+                              ),
+                              ResponsiveText(
+                                text: handleAccountNum(account!.accountNum), 
+                                fontColor: Colors.black, 
+                                fontWeight: FontWeight.normal, 
+                                scaleSize: .8,
+                              ),                            
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ResponsiveText(
+                                text: fmtDoubleToCurrencyString(account.balance), 
+                                fontColor: Colors.black, 
+                                fontWeight: FontWeight.bold, 
+                                fontSize: 36.0,
+                                scaleSize: 1.2,
+                              ),  
+                              gapW64,             
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ResponsiveText(
+                                text: "Active Balance".hardcoded.toUpperCase(),
+                                fontColor: Colors.grey[350],
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                scaleSize: 1.2,
+                              ),
+                              gapW48,
+                            ],
+                          )
+                        ],
+                      )
+                    ),
+                  )
               ],
             ),
-          ),
         )
         /// TODO create separate widget for brand new user
         : Scaffold(
