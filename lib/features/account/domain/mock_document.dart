@@ -14,21 +14,22 @@ Future<KycDocument> kTestDocument(
   KycDocType? kycDocType,
   KycFileType? fileType,
   String? userUid,
-  String? accountDocId,
+  String? accountId,
   ) async {
     /// handle optional params
     final checkedKycDocType = kycDocType ?? 
       KycDocType.driversFront;
     final checkedFileType = fileType ??
       KycFileType.jpg;
-    final accountId = accountDocId ?? newUuidV4();
+    
+    ///final accountId = accountId ?? newUuidV4();
     final userId = userUid ?? "1";
     /// sample asset path
     const path = "assets/documents/test-drivers-front.png";
     ///final byteData = await rootBundle.load(path);
     return KycDocument(
       userUid: userId,
-      accountDocId: accountId,
+      accountId: accountId,
       url: path, 
       name: "test-document-from-assets", 
       kycDocType: checkedKycDocType.name, 

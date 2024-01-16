@@ -2,8 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 ///import 'package:firebase_storage/firebase_storage.dart';
 import 'package:equatable/equatable.dart';
 
-enum KycDocType { driversFront, driversBack, passport }
-enum KycFileType { png, jpg, pdf }
+enum KycDocType { 
+  driversFront, 
+  driversBack, 
+  passport; 
+}
+
+
+enum KycFileType { 
+  png, 
+  jpg, 
+  pdf; 
+}
+
 
 class KycDocMeta extends Equatable {
   const KycDocMeta({
@@ -30,10 +41,10 @@ class KycDocMeta extends Equatable {
     "kycDocType": kycDocType.name
   };
 
-  KycDocument toKycDoc(String url, String userUid, String accountDocId) {
+  KycDocument toKycDoc(String url, String userUid, String? accountId) {
     return KycDocument(
       userUid: userUid,
-      accountDocId: accountDocId,
+      accountId: accountId,
       url: url, 
       name: name, 
       kycDocType: kycDocType.name, 
@@ -48,7 +59,7 @@ class KycDocMeta extends Equatable {
 class KycDocument extends Equatable {
   const KycDocument({
     required this.userUid,
-    required this.accountDocId,
+    this.accountId,
     required this.url,
     required this.name,
     required this.kycDocType,
@@ -57,7 +68,7 @@ class KycDocument extends Equatable {
     this.updatedAt,
   });
 
-  final String accountDocId;
+  final String? accountId;
   final String userUid;
   final String name;
   final String url; 
@@ -70,7 +81,7 @@ class KycDocument extends Equatable {
     final createdAt = map["createdAt"];
     final updatedAt = map["updatedAt"];
     return KycDocument(
-      accountDocId : map["accountDocId"] as String,
+      accountId    : map["accountId"] as String?,
       userUid      : map["userUid"] as String,
       name         : map["name"] as String,
       kycDocType   : map["kycDocType"] as String,
@@ -82,7 +93,7 @@ class KycDocument extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
-    "accountDocId" : accountDocId,
+    "accountId"    : accountId,
     "userUid"      : userUid,
     "name"         : name,
     "kycDocType"   : kycDocType,
@@ -95,7 +106,7 @@ class KycDocument extends Equatable {
   @override
   List<Object?> get props => [
     userUid, 
-    accountDocId, 
+    accountId, 
     url, 
     name, 
     kycDocType, 
