@@ -41,12 +41,11 @@ class KycDocumentRepository {
 
   Future<void> createDocument(
       String userUid,
-      String? accountId,
       String storageUrl,
       KycDocMeta docMeta,
   ) {
     /// TODO error handling and response type
-    final kycDoc = docMeta.toKycDoc(storageUrl, userUid, accountId);
+    final kycDoc = docMeta.toKycDoc(storageUrl, userUid);
     return _firestore.doc(documentsPath())
       .set(
         kycDoc.toMap(),
@@ -58,13 +57,12 @@ class KycDocumentRepository {
   Future<void> updateDocument(
     String docId,
     String userUid,
-    String? accountId, 
     KycDocMeta docMeta, 
     String storageUrl
   ) {
     /// TODO error handling and response type
     final ref = _kycDocRef(docId);
-    return ref.set(docMeta.toKycDoc(storageUrl, userUid, accountId));
+    return ref.set(docMeta.toKycDoc(storageUrl, userUid));
   }
 
   Future<void> deleteDocument(String docId) {

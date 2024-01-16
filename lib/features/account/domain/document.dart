@@ -21,15 +21,18 @@ class KycDocMeta extends Equatable {
     required this.name,
     required this.kycDocType,
     required this.fileType,
+    this.accountId,
   });
 
   final String name;
+  final String? accountId;
   final KycDocType kycDocType;
   final KycFileType fileType;
 
   factory KycDocMeta.fromMap(Map<String, dynamic> map) {
     return KycDocMeta(
       name: map["name"],
+      accountId: map["accountId"],
       fileType: map["fileType"],
       kycDocType: map["kycDocType"],
     );
@@ -37,11 +40,12 @@ class KycDocMeta extends Equatable {
 
   Map<String, dynamic> toMap() => {
     "name": name,
+    "accountId": accountId,
     "fileType": fileType.name,
-    "kycDocType": kycDocType.name
+    "kycDocType": kycDocType.name,
   };
 
-  KycDocument toKycDoc(String url, String userUid, String? accountId) {
+  KycDocument toKycDoc(String url, String userUid) {
     return KycDocument(
       userUid: userUid,
       accountId: accountId,
