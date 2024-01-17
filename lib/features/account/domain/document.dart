@@ -5,7 +5,22 @@ import 'package:equatable/equatable.dart';
 enum KycDocType { 
   driversFront, 
   driversBack, 
-  passport; 
+  passport;
+
+  static List<String> dropDownOpts() {
+    return KycDocType.values.map((KycDocType variant) => switch (variant) {
+      driversFront => "Driver's License (Front)",
+      driversBack => "Driver's License (Back)",
+      passport => "Passport",
+    }).toList();
+  }
+
+  static KycDocType displayTextToVariant(String s) => switch (s) {
+    "Driver's License (Front)" => driversFront,
+    "Driver's License (Back)" => driversBack,
+    "Passport" => passport,
+    _ => throw UnimplementedError("Apply error handling around this call.")
+  };
 }
 
 
