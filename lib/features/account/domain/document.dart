@@ -2,6 +2,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 ///import 'package:firebase_storage/firebase_storage.dart';
 import 'package:equatable/equatable.dart';
 
+enum KycDocCategory {
+  /// * NOTE this is a frontend only enum and is not included in the database 
+  drivers,
+  passport;
+
+  static List<String> dropDownOpts() {
+    return KycDocCategory.values.map((KycDocCategory variant) => switch (variant) {
+      drivers => "Driver's License",
+      passport => "Passport",
+      _ => throw UnimplementedError("Add new KycDocCategory variant to its dropDownOpts method."),
+    }).toList();
+  }
+
+  static List<KycDocCategory> getKycDocCategories() {
+    return KycDocType.values.map((KycDocType variant) => switch (variant) {
+      KycDocType.driversFront => KycDocCategory.drivers,
+      KycDocType.driversBack => KycDocCategory.drivers,
+      KycDocType.passport => KycDocCategory.passport,
+      _ => throw UnimplementedError("Add new KycDocType variant to the frontend enum KycDocCategory."),
+    }).toList();
+  }
+
+  static List<KycDocType> getKycDocCategoryRequirements(KycDocCategory variant) {
+    return KycDocType.values.where((vari) => KycDocType.getCategory(vari) == variant).toList();
+  }
+
+}
+
 enum KycDocType { 
   driversFront, 
   driversBack, 
@@ -21,6 +49,13 @@ enum KycDocType {
     "Passport" => passport,
     _ => throw UnimplementedError("Apply error handling around this call.")
   };
+
+  static KycDocCategory getCategory(KycDocType variant) => switch (variant) {
+    driversFront => KycDocCategory.drivers,
+    driversBack => KycDocCategory.drivers,
+    passport => KycDocCategory.passport
+  };
+
 }
 
 

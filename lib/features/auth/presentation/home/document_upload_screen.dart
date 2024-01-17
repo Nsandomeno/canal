@@ -22,7 +22,6 @@ class KycDocumentUploadScreen extends ConsumerWidget {
     );
   }
 }
-
 /// stateful widget for uploading documents
 /// state includes document type, file name, and file data prior to
 /// submission
@@ -36,9 +35,10 @@ class KycDocumentUploadContents extends ConsumerStatefulWidget {
 
 class _KycDocumentUploadState extends ConsumerState<KycDocumentUploadContents> {
   /// * dropdown options
-  late List<String> _dropDownOpts; /// = KycDocType.dropDownOpts();
+  late List<String> _dropDownOpts; /// = KycDocCategory.dropDownOpts();
   /// * dropdown value
   late String _dropdownValue;  ///= dropDownOpts.first;
+  late KycDocCategory _docCategoryValue;
 
   List<DropdownMenuItem<String>> createDropDownMenuItems() {
     return _dropDownOpts.map((opt) => 
@@ -48,13 +48,25 @@ class _KycDocumentUploadState extends ConsumerState<KycDocumentUploadContents> {
       )).toList();
   }
 
+  void dropdownOnChange(String? newVal) {
+    /// * sets state on update of DropdownButton
+    final newVariant = KycDocType.displayTextToVariant(newVal!);
+    setState(() {
+      _dropdownValue = newVal;
+      _docCategoryValue = KycDocType.getCategory(newVariant);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     /// TODO is there a better way to do this
     /// init dropdown
-    _dropDownOpts = KycDocType.dropDownOpts();
+    _dropDownOpts = KycDocCategory.dropDownOpts();
     _dropdownValue = _dropDownOpts.first;
+    /// variant for value
+    final activeVariant = KycDocType.displayTextToVariant(_dropdownValue);
+    _docCategoryValue = KycDocType.getCategory(activeVariant);
   }
 
   @override
@@ -81,14 +93,51 @@ class _KycDocumentUploadState extends ConsumerState<KycDocumentUploadContents> {
                 color: Colors.teal,
               ),
               onChanged: (String? value) {
-                setState(() {
-                  _dropdownValue = value!;
-                });
+                dropdownOnChange(value);
               }
-            )
+            ),
+            gapH12,
+            KycDocUpload(docCategory: _docCategoryValue),
           ],
         ),
       ),
+    );
+  }
+}
+/// dynamic panels for uploading documents, based on KycDocCategory
+/// * docCategory == KycDocCategory.drivers --> there will be a front/back panel
+/// * docCategory == KycDocCategory.passport --> there will be one single panel
+class KycDocUpload extends ConsumerWidget {
+  const KycDocUpload({super.key, required this.docCategory});
+
+  final KycDocCategory docCategory;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    /// determine the upload requirements expressed in terms of KycDocType variants
+    /// * example:
+    /// *        docCategory == KycDocCategory.drivers
+    /// *
+    /// *         then, categoryRequirements will evaluate to 
+    /// *               [KycDocType.driversFront, KycDocType.driversBack]
+    final categoryRequirements = KycDocCategory.getKycDocCategoryRequirements(
+      docCategory
+    );
+
+    return Column(
+      children: [
+       const ResponsiveText(text: "Upload the front of your document here."),
+        const SizedBox.expand(
+          child: Card(color: Colors.teal,),
+        ),
+        gapH8,
+        if (categoryRequirements.length > 1) ... [
+            const ResponsiveText(text: "Upload the back of your document here."),
+            const SizedBox.expand(
+              child: Card(color: Colors.teal,),
+            )
+        ]
+      ],
     );
   }
 }
