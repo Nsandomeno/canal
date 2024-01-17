@@ -1,4 +1,5 @@
 import 'package:canal/constants/sizes.dart';
+import 'package:canal/router/router.dart';
 import 'package:canal/utils/currency_formatter.dart';
 import 'package:canal/features/account/data/account_repository.dart';
 import 'package:canal/features/auth/data/auth_repository.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:canal/features/account/domain/account.dart';
 import 'package:canal/widgets/responsive_text.dart';
+import 'package:go_router/go_router.dart';
 
 class Home extends ConsumerWidget {
   const Home({super.key});
@@ -52,7 +54,12 @@ class Home extends ConsumerWidget {
     
     /// final state = ref.watch(homeScreenControllerProvider);
     /// due to the router, we can safely use the null override here
-    final accountsValue = ref.watch(accountsFutureProvider(user!.uid));
+    if (user == null) {
+      /// TODO what is the proper way to do this?
+      ///      need to avoide ref.watch() below
+      return const SizedBox.shrink();
+    }
+    final accountsValue = ref.watch(accountsFutureProvider(user.uid));
 
     return AsyncValueWidget<List<Account?>>(
       value: accountsValue, 

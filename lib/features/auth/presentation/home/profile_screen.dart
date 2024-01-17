@@ -1,5 +1,6 @@
 import 'package:canal/features/auth/data/auth_repository.dart';
 import 'package:canal/features/auth/presentation/home/profile_screen_controller.dart';
+import 'package:canal/router/router.dart';
 import 'package:canal/widgets/alert_dialog.dart';
 import 'package:canal/widgets/responsive_text.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:canal/widgets/styled_button.dart';
 import 'package:canal/constants/sizes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -93,7 +95,7 @@ class ProfileScreen extends ConsumerWidget {
                     StyledButton(
                       text: "Upload",
                       fontColor: Colors.white,
-                      onPressed: () => debugPrint("TODO"),
+                      onPressed: () => context.goNamed(Routes.documents.name),
                     )
                   ],
                 ),
@@ -106,7 +108,7 @@ class ProfileScreen extends ConsumerWidget {
                     StyledButton(
                       text: "Upload",
                       fontColor: Colors.white,
-                      onPressed: () => debugPrint("TODO"),
+                      onPressed: () => context.goNamed(Routes.documents.name),
                     )
                   ]
                 )
