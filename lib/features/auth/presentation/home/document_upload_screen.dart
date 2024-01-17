@@ -1,3 +1,5 @@
+import 'package:canal/widgets/responsive_info_panel.dart';
+import 'package:canal/widgets/styled_button.dart';
 import 'package:flutter/material.dart';
 import 'package:canal/localization/string_hardcoded.dart';
 import 'package:canal/utils/async_value_ui.dart';
@@ -50,10 +52,10 @@ class _KycDocumentUploadState extends ConsumerState<KycDocumentUploadContents> {
 
   void dropdownOnChange(String? newVal) {
     /// * sets state on update of DropdownButton
-    final newVariant = KycDocType.displayTextToVariant(newVal!);
+    final newVariant = KycDocCategory.displayTextToVariant(newVal!);
     setState(() {
       _dropdownValue = newVal;
-      _docCategoryValue = KycDocType.getCategory(newVariant);
+      _docCategoryValue = newVariant;
     });
   }
 
@@ -65,8 +67,7 @@ class _KycDocumentUploadState extends ConsumerState<KycDocumentUploadContents> {
     _dropDownOpts = KycDocCategory.dropDownOpts();
     _dropdownValue = _dropDownOpts.first;
     /// variant for value
-    final activeVariant = KycDocType.displayTextToVariant(_dropdownValue);
-    _docCategoryValue = KycDocType.getCategory(activeVariant);
+    _docCategoryValue = KycDocCategory.displayTextToVariant(_dropdownValue);
   }
 
   @override
@@ -77,10 +78,7 @@ class _KycDocumentUploadState extends ConsumerState<KycDocumentUploadContents> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Center(
-        child: Column(
+    return Column(
           children: [
             DropdownButton<String>(
               items: createDropDownMenuItems(), 
@@ -99,21 +97,31 @@ class _KycDocumentUploadState extends ConsumerState<KycDocumentUploadContents> {
             gapH12,
             KycDocUpload(docCategory: _docCategoryValue),
           ],
-        ),
-      ),
-    );
+        );
   }
 }
 /// dynamic panels for uploading documents, based on KycDocCategory
 /// * docCategory == KycDocCategory.drivers --> there will be a front/back panel
 /// * docCategory == KycDocCategory.passport --> there will be one single panel
-class KycDocUpload extends ConsumerWidget {
+class KycDocUpload extends StatelessWidget {
   const KycDocUpload({super.key, required this.docCategory});
 
   final KycDocCategory docCategory;
 
+  Widget uploadCol() {
+    return const Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ResponsiveText(text: "Select from camera roll or capture"),
+        StyledButton(text: "Select"),
+        StyledButton(text: "Take Photo")
+      ],
+    );
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     /// determine the upload requirements expressed in terms of KycDocType variants
     /// * example:
     /// *        docCategory == KycDocCategory.drivers
@@ -125,17 +133,18 @@ class KycDocUpload extends ConsumerWidget {
     );
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
        const ResponsiveText(text: "Upload the front of your document here."),
-        const SizedBox.expand(
-          child: Card(color: Colors.teal,),
+        Card(
+          child: uploadCol(),
         ),
         gapH8,
         if (categoryRequirements.length > 1) ... [
             const ResponsiveText(text: "Upload the back of your document here."),
-            const SizedBox.expand(
-              child: Card(color: Colors.teal,),
-            )
+            Card(
+              child: uploadCol(),
+            ),
         ]
       ],
     );

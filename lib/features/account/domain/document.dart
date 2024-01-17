@@ -15,6 +15,12 @@ enum KycDocCategory {
     }).toList();
   }
 
+  static KycDocCategory displayTextToVariant(String s) => switch (s) {
+    "Driver's License" => drivers,
+    "Passport" => passport,
+    _ => throw UnimplementedError("Please implement the KycDocCategory $s"),
+  };
+
   static List<KycDocCategory> getKycDocCategories() {
     return KycDocType.values.map((KycDocType variant) => switch (variant) {
       KycDocType.driversFront => KycDocCategory.drivers,
@@ -49,6 +55,7 @@ enum KycDocType {
     "Passport" => passport,
     _ => throw UnimplementedError("Apply error handling around this call.")
   };
+
 
   static KycDocCategory getCategory(KycDocType variant) => switch (variant) {
     driversFront => KycDocCategory.drivers,
