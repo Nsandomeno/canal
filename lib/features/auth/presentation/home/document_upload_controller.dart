@@ -1,8 +1,10 @@
 import 'package:canal/features/account/domain/document.dart';
 import 'package:canal/features/auth/application/kyc_service.dart';
+import 'package:canal/features/auth/data/image_repository.dart';
 import 'package:canal/router/router.dart';
 import 'package:canal/utils/notifier_mounted.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/services.dart';
 
@@ -16,6 +18,40 @@ class DocumentUploadController extends _$DocumentUploadController
   FutureOr<void> build() {
     ref.onDispose(setUnmounted);
   }
+  /// TODO ensure AsyncData is working with the return type
+  Future<XFile?> loadFile() async {
+    try {
+      state = const AsyncLoading();
+      final result = await ref.read(imageRepositoryProvider).selectOne();
+
+      if (mounted) {
+        /// SET SUCCESS TODO - handle properly
+        state = const AsyncData(null);
+      }
+    } catch (e, stackTrace) {
+      if (mounted) {
+        /// SET ERROR TODO - handle properly
+        state = AsyncError(e, stackTrace);
+      }
+    }
+  }
+  /// TODO ensure AsyncData is working with the return type
+  Future<XFile?> createFile() async {
+    try {
+      state = const AsyncLoading();
+      final result = await ref.read(imageRepositoryProvider).takeOne();
+
+      if (mounted) {
+        /// SET SUCCESS TODO - handle properly
+        state = const AsyncData(null);
+      }
+    } catch (e, stackTrace) {
+      if (mounted) {
+        /// SET ERROR TODO - handle properly
+        state = AsyncError(e, stackTrace);
+      }
+    }
+  }
 
   Future<void> upload(KycDocMeta docMeta, ByteData data) async {
     try {
@@ -25,7 +61,7 @@ class DocumentUploadController extends _$DocumentUploadController
       await ref.read(kycServiceProvider).uploadKycDocument(docMeta, data);
       /// set state, if still mounted and not routing away
       if (mounted) {
-        /// SET SUCESS
+        /// SET SUCCESS TODO - handle properly
         state = const AsyncData(null);
       }
       /// route to account overview page
@@ -35,7 +71,7 @@ class DocumentUploadController extends _$DocumentUploadController
       // );
     } catch (e, stackTrace) {
       if (mounted) {
-        /// SET ERROR
+        /// SET ERROR TODO - handle properly
         state = AsyncError(e, stackTrace);
       }
       

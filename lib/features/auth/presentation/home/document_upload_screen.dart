@@ -1,15 +1,13 @@
-import 'package:canal/widgets/responsive_info_panel.dart';
 import 'package:canal/widgets/styled_button.dart';
 import 'package:flutter/material.dart';
-import 'package:canal/localization/string_hardcoded.dart';
-import 'package:canal/utils/async_value_ui.dart';
-import 'package:canal/widgets/async_widget.dart';
 import 'package:canal/widgets/user_app_bar.dart';
 import 'package:canal/constants/sizes.dart';
 import 'package:canal/widgets/responsive_text.dart';
 import 'package:canal/features/account/domain/document.dart';
 import 'package:canal/features/auth/presentation/home/document_upload_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+/// TODO - this will required modification when it comes to updating documents (of one kind)
+///        or using previously uploaded documents for a new account opening process.
 
 /// screen for uploading documents to be directly or later attached 
 /// to a KYC process related to an account
@@ -103,25 +101,42 @@ class _KycDocumentUploadState extends ConsumerState<KycDocumentUploadContents> {
 /// dynamic panels for uploading documents, based on KycDocCategory
 /// * docCategory == KycDocCategory.drivers --> there will be a front/back panel
 /// * docCategory == KycDocCategory.passport --> there will be one single panel
-class KycDocUpload extends StatelessWidget {
+class KycDocUpload extends ConsumerWidget {
   const KycDocUpload({super.key, required this.docCategory});
 
   final KycDocCategory docCategory;
 
-  Widget uploadCol() {
-    return const Column(
+  Widget uploadCol(WidgetRef ref) {
+
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ResponsiveText(text: "Select from camera roll or capture"),
-        StyledButton(text: "Select"),
-        StyledButton(text: "Take Photo")
+        const ResponsiveText(text: "Select from camera roll or capture"),
+        StyledButton(
+          text: "Select",
+          onPressed: () async {
+            final controller = ref.read(documentUploadControllerProvider.notifier);
+            final result = await controller.loadFile();
+            /// TODO we may need this to be a stateful widget unless the controller
+            ///      can hold the file
+          },
+        ),
+        StyledButton(
+          text: "Take Photo",
+          onPressed: () async {
+            final controller = ref.read(documentUploadControllerProvider.notifier);
+            final result = await controller.createFile();
+            /// TODO we may need this to be a stateful widget unless the controller
+            ///      can hold the file
+          },
+        )
       ],
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     /// determine the upload requirements expressed in terms of KycDocType variants
     /// * example:
     /// *        docCategory == KycDocCategory.drivers
@@ -131,19 +146,31 @@ class KycDocUpload extends StatelessWidget {
     final categoryRequirements = KycDocCategory.getKycDocCategoryRequirements(
       docCategory
     );
+    /// TODO 
+    /// *    in a two part submission process, ensure we can return
+    ///      the file through AsyncData (i.e. set to state)
+    /// *    also consider that this should probably be a stateful widget to hold the file
+    ///      data before 
+    final state = ref.watch(documentUploadControllerProvider);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
        const ResponsiveText(text: "Upload the front of your document here."),
+        /// TODO 
+        /// * use ResponsiveInfoCard and checkout this StackOverflow on RenderFlex errors
+        /// * https://stackoverflow.com/questions/57803737/flutter-renderflex-children-have-non-zero-flex-but-incoming-height-constraints
         Card(
-          child: uploadCol(),
+          child: uploadCol(ref),
         ),
         gapH8,
         if (categoryRequirements.length > 1) ... [
             const ResponsiveText(text: "Upload the back of your document here."),
+            /// TODO 
+            /// * use ResponsiveInfoCard and checkout this StackOverflow on RenderFlex errors
+            /// * https://stackoverflow.com/questions/57803737/flutter-renderflex-children-have-non-zero-flex-but-incoming-height-constraints
             Card(
-              child: uploadCol(),
+              child: uploadCol(ref),
             ),
         ]
       ],
